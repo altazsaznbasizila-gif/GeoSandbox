@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="bg">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Урок 22 · Ендогенни релефообразуващи процеси · ГеоСфера</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Sofia+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .article.wrap {
+      max-width: 920px
+    }
+
+    .sim {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 2.4vh 24px 2.8vh;
+      margin: 3vh 0;
+      box-shadow: 0 8px 26px rgba(19, 38, 46, .07)
+    }
+
+    .sim-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 1.6vh;
+      flex-wrap: wrap
+    }
+
+    .sim-tag {
+      font-family: var(--mono);
+      font-size: clamp(74%, .85vw, 82%);
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: var(--accent-deep);
+      background: var(--accent-soft);
+      padding: .6vh 14px;
+      border-radius: 999px
+    }
+
+    .sim-reset {
+      font-family: var(--mono);
+      font-size: clamp(74%, .85vw, 82%);
+      color: var(--muted);
+      background: none;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: .6vh 14px;
+      cursor: pointer;
+      transition: .2s
+    }
+
+    .sim-reset:hover {
+      border-color: var(--accent);
+      color: var(--accent-deep)
+    }
+
+    .sim-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--paper);
+      border-radius: 12px
+    }
+
+    .sim-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px 26px;
+      align-items: end;
+      margin-top: 2vh
+    }
+
+    .sim-field {
+      flex: 1 1 240px;
+      min-width: 210px
+    }
+
+    .sim-field label {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: clamp(76%, .86vw, 84%);
+      color: var(--ink);
+      margin-bottom: .7vh
+    }
+
+    .sim-field label b {
+      color: var(--accent-deep)
+    }
+
+    .sim-range {
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+      outline: none;
+      margin: 0
+    }
+
+    .sim-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent-deep);
+      cursor: pointer;
+      border: 3px solid #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .25)
+    }
+
+    .sim-range::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent-deep);
+      cursor: pointer;
+      border: 3px solid #fff
+    }
+
+    .sim-btn {
+      font-family: var(--mono);
+      font-weight: 600;
+      font-size: clamp(82%, .95vw, 92%);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #fff;
+      background: var(--accent);
+      border: none;
+      border-radius: 999px;
+      padding: 1.2vh 24px;
+      cursor: pointer;
+      transition: .2s;
+      white-space: nowrap
+    }
+
+    .sim-btn:hover {
+      background: var(--accent-deep)
+    }
+
+    .sim-btn:disabled {
+      opacity: .4;
+      cursor: not-allowed
+    }
+
+    .sim-toggle {
+      display: inline-flex;
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      overflow: hidden
+    }
+
+    .sim-toggle button {
+      font-family: var(--mono);
+      font-size: clamp(76%, .88vw, 86%);
+      padding: 1vh 18px;
+      background: #fff;
+      border: none;
+      cursor: pointer;
+      color: var(--accent-deep);
+      transition: .2s
+    }
+
+    .sim-toggle button.on {
+      background: var(--accent);
+      color: #fff
+    }
+
+    .sim-live {
+      margin-top: 1.8vh;
+      font-size: clamp(96%, 1.08vw, 106%);
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--accent-soft);
+      border-radius: 10px;
+      padding: 1.6vh 18px
+    }
+
+    .sim-live b {
+      color: var(--accent-deep)
+    }
+
+    .sl {
+      font-family: var(--mono);
+      font-size: 13px;
+      fill: var(--ink)
+    }
+
+    .sl.sm {
+      font-size: 11px
+    }
+
+    .sl.wt {
+      fill: #fff
+    }
+
+    @keyframes simpulse {
+
+      0%,
+      100% {
+        opacity: .85
+      }
+
+      50% {
+        opacity: .35
+      }
+    }
+
+    .crit {
+      animation: simpulse 1s ease-in-out infinite
+    }
+  </style>
+</head>
+
+<body data-view="litosfera">
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="../index.html">
+        <svg viewBox="0 0 32 32" fill="none" stroke-linecap="round" aria-hidden="true">
+          <circle cx="16" cy="16" r="14" stroke="#13262E" stroke-width="1.6" />
+          <path d="M6 11.5a12.4 12.4 0 0 1 20 0" stroke="#3E8FD0" stroke-width="3" />
+          <path d="M4.6 17h22.8" stroke="#0D7387" stroke-width="3" />
+          <path d="M7.5 23.5a12.4 12.4 0 0 0 17 0" stroke="#A8551E" stroke-width="3" />
+        </svg>
+        ГеоСфера
+      </a>
+      <nav class="nav" aria-label="Основна навигация">
+        <a href="../index.html">Начало</a>
+        <a href="../atmosfera.html">Атмосфера</a>
+        <a href="../hidrosfera.html">Хидросфера</a>
+        <a href="../litosfera.html" class="on" aria-current="page">Литосфера</a>
+      </nav>
+    </div>
+    <div class="ticks" aria-hidden="true"></div>
+  </header>
+
+  <main>
+
+    <section class="page">
+      <div class="lesson-hero">
+        <div class="wrap lh-inner">
+          <p class="lh-tag"><span class="num">Урок 22</span> Литосфера</p>
+          <h1 class="lh-title">Ендогенни релефообразуващи процеси</h1>
+          <div class="lh-questions">
+            <span class="qlbl">Водещи въпроси</span>
+            <p>Какви са обхватът и продължителността на ендогенните процеси и какви форми на релефа създават?
+              Изригването на кой вулкан било чуто на 3200 km разстояние? Ще намалеят ли земетресенията?</p>
+          </div>
+          <div class="toc">
+            <a href="#dvizheniya">Тектонски движения</a>
+            <a href="#kolebatelni">Колебателни</a>
+            <a href="#nagavatelni">Нагъвателни</a>
+            <a href="#razlomni">Разломни</a>
+            <a href="#vulkanizam">Вулканизъм</a>
+            <a href="#zemetresenia">Земетресения</a>
+          </div>
+        </div>
+      </div>
+
+      <article class="article wrap">
+        <p class="sec p" style="font-size:clamp(110%,1.4vw,126%);color:var(--muted)">Релефът на земната повърхност се
+          образува от взаимодействието на вътрешните и външните земни сили. <span class="term">Ендогенните
+            процеси</span> протичат в земните недра благодарение на вътрешноземната енергия. Те са причина за
+          тектонските движения, вулканизма и земетресенията, а резултат от тях са едрите форми на релефа — планинските
+          вериги, обширните равнини и др.</p>
+
+        <div class="sec" id="dvizheniya">
+          <p class="sec-eyebrow"><span class="sn">1</span> Тектонски движения</p>
+          <h3>Когато кората се мести и деформира</h3>
+          <p><span class="term">Тектонски движения</span> са движенията, които предизвикват вертикални и хоризонтални
+            премествания и деформации в горната част на литосферата. Делят се на вертикални (колебателни) и хоризонтални
+            (нагъвателни и разломни).</p>
+        </div>
+
+        <div class="sec" id="kolebatelni">
+          <h4>Колебателни движения</h4>
+          <div class="defbox"><span class="def-term">Колебателни движения</span>
+            <p>Бавни и продължителни вертикални издигания или потъвания на големи участъци от земната кора. Те не
+              предизвикват деформации и не създават нови структури, а могат и да сменят посоката си. Например след
+              топенето на ледниците преди около 10 000 г. северната част на Скандинавския полуостров и до днес се издига
+              с около 1 cm/г.</p>
+          </div>
+
+          <div class="sim" id="sim-osc">
+            <div class="sim-bar"><span class="sim-tag">Симулация · колебателни движения</span><button class="sim-reset"
+                data-r="osc">↺ Нулирай</button></div>
+            <svg class="sim-svg" id="osc-svg" viewBox="0 0 760 260" role="img"
+              aria-label="Симулация на колебателни движения">
+              <defs>
+                <linearGradient id="osc-m" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#E2592A" />
+                  <stop offset="1" stop-color="#F4B65A" />
+                </linearGradient>
+              </defs>
+              <rect x="0" y="184" width="760" height="76" fill="url(#osc-m)" />
+              <text x="20" y="232" class="sl wt">ГОРНА МАНТИЯ (астеносфера)</text>
+              <line x1="0" y1="120" x2="760" y2="120" stroke="#13262E" stroke-dasharray="5 7" stroke-width="1"
+                opacity=".4" />
+              <text x="744" y="114" class="sl sm" text-anchor="end" fill="#54707A">изходно ниво</text>
+              <rect id="osc-sea" x="400" y="92" width="300" height="28" fill="#9AD0E8" opacity=".5" />
+              <g id="osc-left">
+                <rect x="60" y="120" width="300" height="64" fill="#A8743F" />
+                <rect x="60" y="108" width="300" height="12" fill="#D6BD9A" />
+                <rect x="60" y="100" width="300" height="8" fill="#9BC97F" />
+              </g>
+              <g id="osc-right">
+                <rect x="400" y="120" width="300" height="64" fill="#8A5A2E" />
+                <rect x="400" y="108" width="300" height="12" fill="#C9A36A" />
+              </g>
+              <path id="osc-arr-l" d="" stroke="#13262E" stroke-width="2.5" fill="none" />
+              <path id="osc-arr-r" d="" stroke="#13262E" stroke-width="2.5" fill="none" />
+              <text x="210" y="252" class="sl" text-anchor="middle" font-weight="600" fill="#7E3F14">континент (напр.
+                Скандинавия)</text>
+              <text x="550" y="252" class="sl" text-anchor="middle" font-weight="600" fill="#7E3F14">шелф /
+                низина</text>
+            </svg>
+            <div class="sim-controls">
+              <div class="sim-field"><label>Изминало геоложко време <b id="osc-val">0 г.</b></label><input
+                  class="sim-range" id="osc-range" type="range" min="0" max="100" value="0"></div>
+            </div>
+            <p class="sim-live" id="osc-live">Плъзни времето надясно: левият блок бавно се <b>издига</b>, а десният
+              <b>потъва</b> — пластовете остават хоризонтални.
+            </p>
+          </div>
+        </div>
+
+        <div class="sec" id="nagavatelni">
+          <h4>Нагъвателни движения</h4>
+          <p>Породени са от хоризонтално насочен натиск между литосферните плочи. При тях пластовете се нагъват, но
+            целостта на скалите се запазва. Различават се два основни вида гънки.</p>
+          <div class="defbox"><span class="def-term">Антиклинала</span>
+            <p>Изпъкнала нагоре гънка с арковидна форма.</p>
+          </div>
+          <div class="defbox"><span class="def-term">Синклинала</span>
+            <p>Вдлъбната надолу гънка. Гънковите структури са типични за планинските територии, но невинаги се изявяват
+              в релефа.</p>
+          </div>
+
+          <div class="sim" id="sim-fold">
+            <div class="sim-bar"><span class="sim-tag">Симулация · нагъвателни движения</span><button class="sim-reset"
+                data-r="fold">↺ Нулирай</button></div>
+            <svg class="sim-svg" id="fold-svg" viewBox="0 0 760 262" role="img" aria-label="Симулация на нагъване">
+              <g id="fold-arrows"></g>
+              <g id="fold-layers"></g>
+              <g id="fold-lab" opacity="0">
+                <text id="fold-a" class="sl" text-anchor="middle" font-weight="600" fill="#7E3F14">АНТИКЛИНАЛА</text>
+                <text id="fold-s" class="sl" text-anchor="middle" font-weight="600" fill="#7E3F14">СИНКЛИНАЛА</text>
+              </g>
+            </svg>
+            <div class="sim-controls">
+              <div class="sim-field"><label>Хоризонтален натиск <b id="fold-val">0%</b></label><input class="sim-range"
+                  id="fold-range" type="range" min="0" max="100" value="0"></div>
+            </div>
+            <p class="sim-live" id="fold-live">Усили натиска от двете страни: пластовете се нагъват на
+              <b>антиклинали</b> и <b>синклинали</b>, без да се разкъсват.
+            </p>
+          </div>
+        </div>
+
+        <div class="sec" id="razlomni">
+          <h4>Разломни движения</h4>
+          <p>Когато кората е изградена от твърди скали, натискът нарушава целостта им и се образуват <span
+              class="term">разломи</span> — големи пукнатини, по които стават премествания. Между разломите се
+            обособяват характерни блокови структури.</p>
+          <div class="defbox"><span class="def-term">Грабен</span>
+            <p>Потънала блокова структура между два успоредни разлома, образувана при разтягане на кората. Голяма част
+              от котловините в България са грабенови структури.</p>
+          </div>
+          <div class="defbox"><span class="def-term">Хорст</span>
+            <p>Издигната блокова структура между два разлома, резултат от възходящи движения. Планините Пирин и Беласица
+              са характерни хорстови структури.</p>
+          </div>
+
+          <div class="sim" id="sim-fault">
+            <div class="sim-bar"><span class="sim-tag">Симулация · разломни движения</span><button class="sim-reset"
+                data-r="fault">↺ Нулирай</button></div>
+            <svg class="sim-svg" id="fault-svg" viewBox="0 0 760 240" role="img"
+              aria-label="Симулация на разломни движения">
+              <g id="fault-left">
+                <rect x="40" y="96" width="210" height="110" fill="#A8743F" />
+                <rect x="40" y="84" width="210" height="12" fill="#D6BD9A" />
+                <rect x="40" y="78" width="210" height="6" fill="#9BC97F" />
+              </g>
+              <g id="fault-mid">
+                <rect x="255" y="96" width="250" height="110" fill="#8A5A2E" />
+                <rect x="255" y="84" width="250" height="12" fill="#C9A36A" />
+                <rect x="255" y="78" width="250" height="6" fill="#7FB069" />
+              </g>
+              <g id="fault-right">
+                <rect x="510" y="96" width="210" height="110" fill="#A8743F" />
+                <rect x="510" y="84" width="210" height="12" fill="#D6BD9A" />
+                <rect x="510" y="78" width="210" height="6" fill="#9BC97F" />
+              </g>
+              <g stroke="#13262E" stroke-width="2" stroke-dasharray="4 5">
+                <line x1="252" y1="62" x2="252" y2="212" />
+                <line x1="508" y1="62" x2="508" y2="212" />
+              </g>
+              <g id="fault-lab" opacity="0">
+                <text x="145" y="150" class="sl wt" text-anchor="middle" font-weight="600" fill="#fff">ХОРСТ</text>
+                <text id="fault-g" x="380" y="150" class="sl wt" text-anchor="middle" font-weight="600"
+                  fill="#fff">ГРАБЕН</text>
+                <text x="615" y="150" class="sl wt" text-anchor="middle" font-weight="600" fill="#fff">ХОРСТ</text>
+              </g>
+            </svg>
+            <div class="sim-controls">
+              <div class="sim-field"><label>Разтягане на кората <b id="fault-val">0%</b></label><input class="sim-range"
+                  id="fault-range" type="range" min="0" max="100" value="0"></div>
+            </div>
+            <p class="sim-live" id="fault-live">Разтегли кората: средният блок пропада между разломите и образува
+              <b>грабен</b>, а съседните остават издигнати — <b>хорстове</b>.
+            </p>
+          </div>
+        </div>
+
+        <div class="sec" id="vulkanizam">
+          <p class="sec-eyebrow"><span class="sn">2</span> Вулканизъм</p>
+          <h3>Когато магмата излезе на повърхността</h3>
+          <div class="defbox"><span class="def-term">Вулканизъм</span>
+            <p>Издигането на магма и изхвърлянето ѝ върху земната повърхност като лава, вулканска пепел и газове.
+              Разпространението на вулканите е тясно свързано с граничните зони на литосферните плочи, а типът на
+              вулканизма зависи от типа граница.</p>
+          </div>
+          <p>В <b>границите на отваряне</b> базалтовата магма е по-гореща (над 1000°C) и се излива като течна лава,
+            образувайки вулкани с полегати склонове. В <b>границите на затваряне</b> изригванията са съпроводени от
+            много горещи газове и пепел; материалите се натрупват на пластове и изграждат високи конусовидни вулкани със
+            стръмни склонове и кратер на върха.</p>
+
+          <div class="sim" id="sim-volc">
+            <div class="sim-bar"><span class="sim-tag">Симулация · вулканизъм</span><button class="sim-reset"
+                data-r="volc">↺ Нулирай</button></div>
+            <svg class="sim-svg" id="volc-svg" viewBox="0 0 760 320" role="img"
+              aria-label="Симулация на вулканско изригване">
+              <defs>
+                <linearGradient id="volc-mag" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#FFD34B" />
+                  <stop offset="1" stop-color="#E2592A" />
+                </linearGradient>
+              </defs>
+              <rect x="0" y="252" width="760" height="68" fill="#6E4326" />
+              <ellipse id="volc-cham" cx="380" cy="298" rx="150" ry="26" fill="url(#volc-mag)" opacity=".85" />
+              <g id="volc-shake">
+                <path id="volc-cone" d="M250 252 L380 72 L510 252 Z" fill="#8A5A2E" />
+                <g stroke="#C9A36A" stroke-width="2" opacity=".6" fill="none">
+                  <path d="M300 252 L380 126 L460 252" />
+                  <path d="M330 252 L380 166 L430 252" />
+                </g>
+                <path d="M366 88 q14 -16 28 0" fill="#5F2E0C" />
+                <g id="volc-lava" opacity="0" fill="url(#volc-mag)">
+                  <polygon points="366,90 374,90 338,252 314,252" />
+                  <polygon points="386,90 394,90 446,252 422,252" />
+                </g>
+              </g>
+              <rect id="volc-col" x="373" y="252" width="14" height="0" fill="url(#volc-mag)" />
+              <g id="volc-ash" opacity="0" fill="#9AA0A6">
+                <ellipse cx="380" cy="62" rx="40" ry="24" />
+                <ellipse cx="346" cy="54" rx="26" ry="16" fill="#B0B5BA" />
+                <ellipse cx="414" cy="56" rx="28" ry="17" fill="#7E848A" />
+                <ellipse cx="380" cy="40" rx="30" ry="18" fill="#C2C6CA" />
+              </g>
+              <g stroke="#13262E" stroke-width="1.2">
+                <line x1="394" y1="84" x2="540" y2="84" />
+                <line x1="392" y1="170" x2="560" y2="170" />
+                <line x1="470" y1="296" x2="600" y2="296" />
+              </g>
+              <text x="546" y="88" class="sl sm">кратер</text>
+              <text x="566" y="174" class="sl sm">вулканско гърло</text>
+              <text x="606" y="300" class="sl sm">магмено огнище</text>
+            </svg>
+            <div class="sim-controls">
+              <div class="sim-field"><label>Налягане в огнището <b id="volc-val">10%</b></label><input class="sim-range"
+                  id="volc-range" type="range" min="0" max="100" value="10"></div>
+              <div>
+                <div class="sim-toggle" id="volc-type"><button type="button" data-t="ef"
+                    class="on">Ефузивен</button><button type="button" data-t="ex">Експлозивен</button></div>
+              </div>
+              <button class="sim-btn" id="volc-erupt" type="button">Изригни</button>
+            </div>
+            <p class="sim-live" id="volc-live">Качи налягането и натисни „Изригни“. <b>Ефузивен</b> тип: течна лава по
+              полегати склонове. <b>Експлозивен</b>: газове и пепел с мощен взрив.</p>
+          </div>
+          <div class="factbox">
+            <p class="fb-lbl">Най-опасните вулкани</p>
+            <p>Когато слабо подвижна лава задръсти вулканското гърло, газовете отдолу повишават налягането до критична
+              точка и става грандиозен взрив, който разрушава голяма част от самия вулкан — както при вулкана Кракатау.
+            </p>
+          </div>
+        </div>
+
+        <div class="sec" id="zemetresenia">
+          <p class="sec-eyebrow"><span class="sn">3</span> Земетресения</p>
+          <h3>Внезапното освобождаване на енергия</h3>
+          <div class="defbox"><span class="def-term">Земетресение</span>
+            <p>Явление, свързано с внезапно разкъсване на земната повърхност и освобождаване на огромно количество
+              енергия, натрупана в литосферата. Най-често се причинява в граничните зони на плочите при движението им
+              една спрямо друга.</p>
+          </div>
+
+          <div class="sim" id="sim-quake">
+            <div class="sim-bar"><span class="sim-tag">Симулация · земетресение</span><button class="sim-reset"
+                data-r="quake">↺ Нулирай</button></div>
+            <svg class="sim-svg" id="quake-svg" viewBox="0 0 760 300" role="img" aria-label="Симулация на земетресение">
+              <rect x="0" y="0" width="760" height="118" fill="#EAF2F6" />
+              <rect x="0" y="118" width="760" height="182" fill="#C99A6A" />
+              <rect x="0" y="112" width="760" height="8" fill="#7FB069" />
+              <g id="quake-houses">
+                <g transform="translate(150,0)">
+                  <rect x="-18" y="84" width="36" height="28" fill="#E8D6BE" />
+                  <polygon points="-22,84 0,64 22,84" fill="#A8551E" />
+                  <rect x="-6" y="94" width="12" height="18" fill="#8A5A2E" />
+                </g>
+                <g transform="translate(300,0)">
+                  <rect x="-16" y="88" width="32" height="24" fill="#DFEAD0" />
+                  <polygon points="-20,88 0,70 20,88" fill="#7E3F14" />
+                  <rect x="-5" y="98" width="10" height="14" fill="#8A5A2E" />
+                </g>
+                <g transform="translate(470,0)">
+                  <rect x="-20" y="80" width="40" height="32" fill="#E8D6BE" />
+                  <polygon points="-24,80 0,58 24,80" fill="#A8551E" />
+                  <rect x="-6" y="92" width="12" height="20" fill="#8A5A2E" />
+                </g>
+                <g transform="translate(610,0)">
+                  <rect x="-15" y="90" width="30" height="22" fill="#DFEAD0" />
+                  <polygon points="-19,90 0,74 19,90" fill="#7E3F14" />
+                  <rect x="-5" y="99" width="10" height="13" fill="#8A5A2E" />
+                </g>
+              </g>
+              <g id="quake-waves"></g>
+              <line id="quake-vline" x1="380" y1="112" x2="380" y2="200" stroke="#13262E" stroke-width="2"
+                stroke-dasharray="5 5" />
+              <polygon id="quake-epi"
+                points="380,98 384,108 395,108 386,115 389,126 380,119 371,126 374,115 365,108 376,108" fill="#E2592A"
+                stroke="#7E3F14" stroke-width="1.5" />
+              <circle id="quake-hypo" cx="380" cy="200" r="9" fill="#13262E" />
+              <text x="398" y="96" class="sl" font-weight="600">епицентър</text>
+              <text id="quake-hlab" x="398" y="204" class="sl" fill="#13262E" font-weight="600">хипоцентър</text>
+            </svg>
+            <div class="sim-controls">
+              <div class="sim-field"><label>Дълбочина на хипоцентъра <b id="quake-dval">плитко · 24 km</b></label><input
+                  class="sim-range" id="quake-depth" type="range" min="20" max="170" value="60"></div>
+              <div class="sim-field"><label>Магнитуд <b id="quake-mval">M 6.0</b></label><input class="sim-range"
+                  id="quake-mag" type="range" min="40" max="90" value="60"></div>
+              <button class="sim-btn" id="quake-go" type="button">Активирай земетресение</button>
+            </div>
+            <p class="sim-live" id="quake-live">Избери дълбочина и магнитуд, после активирай. Колкото по-<b>плитък</b> е
+              хипоцентърът, толкова по-силно се усеща на повърхността.</p>
+          </div>
+
+          <ul class="deflist">
+            <li><b>Хипоцентър (земетръсно огнище)</b>
+              <p>Мястото в дълбочина, където се освобождава вътрешната енергия.</p>
+            </li>
+            <li><b>Епицентър</b>
+              <p>Точката на земната повърхност точно над хипоцентъра. С отдалечаване от нея интензивността намалява.</p>
+            </li>
+            <li><b>Магнитуд</b>
+              <p>Величина, въведена от сеизмолога Рихтер; характеризира освободената енергия в хипоцентъра. Скалата няма
+                горна граница, но най-мощните земетресения имат магнитуд около 9.</p>
+            </li>
+            <li><b>Интензивност</b>
+              <p>Отразява степента на разтърсване на повърхността и ефекта върху сградите. Колкото по-плитък е
+                хипоцентърът, толкова по-силно се усеща земетресението.</p>
+            </li>
+          </ul>
+          <div class="factbox big">
+            <div class="stat">80%<small>от най-силните земетресения</small></div>
+            <p>стават в Тихоокеанския огнен пръстен — ивица около Тихия океан с над 450 вулкана. Втората по значение
+              зона е Алпо-Хималайската, в която попада и България (около 17%).</p>
+          </div>
+        </div>
+
+        <div class="tasks">
+          <h3>Въпроси и задачи</h3>
+          <ol>
+            <li>Характеризирайте тектонските движения.</li>
+            <li>Кои български планини са хорстове?</li>
+            <li>Направете картосхема на районите с най-интензивна земетръсна и вулканична дейност в света.</li>
+            <li>Проучете в интернет последиците от неотдавнашно голямо земетресение в света.</li>
+          </ol>
+        </div>
+
+        <nav class="lnav" aria-label="Между уроците">
+          <a class="prev" href="urok-21.html"><span class="dir">← Предходен</span><span class="ttl">21 · Литосфера и
+              тектоника на плочите</span></a>
+          <a class="next" href="urok-23.html"><span class="dir">Следващ →</span><span class="ttl">23 · в
+              подготовка</span></a>
+        </nav>
+        <a class="back" href="../litosfera.html">← Обратно към раздел Литосфера</a>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="ticks" aria-hidden="true"></div>
+    <div class="wrap footer-grid">
+      <div>
+        <p class="fbrand">ГеоСфера</p>
+        <p class="fnote">Учебен атлас по география и икономика · 8. клас</p>
+      </div>
+      <div>
+        <div class="scalebar" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        <p class="fnote mono">лист K-35 · България · © 2026</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var $ = function (id) { return document.getElementById(id) };
+
+      (function osc() {
+        var r = $("osc-range"); if (!r) return;
+        var L = $("osc-left"), R = $("osc-right"), al = $("osc-arr-l"), ar = $("osc-arr-r"), v = $("osc-val"), live = $("osc-live");
+        function up() {
+          var t = +r.value, d = t * 0.5;
+          L.setAttribute("transform", "translate(0," + (-d) + ")");
+          R.setAttribute("transform", "translate(0," + d + ")");
+          var len = 18 + d * 0.8;
+          al.setAttribute("d", d > 1 ? "M210 " + (96 - d - 12) + " l0 -" + len + " m-7 9 l7 -9 l7 9" : "");
+          ar.setAttribute("d", d > 1 ? "M550 " + (184 + d + 12) + " l0 " + len + " m-7 -9 l7 9 l7 -9" : "");
+          v.textContent = (t * 100) + " г.";
+          var m = Math.round(t * 8);
+          live.innerHTML = t < 2 ? "Плъзни времето надясно: левият блок бавно се <b>издига</b>, а десният <b>потъва</b> — пластовете остават хоризонтални."
+            : "Континентът се <b>издига</b> с +" + m + " m, а шелфът <b>потъва</b> с −" + m + " m. Движението е бавно и <b>без деформация</b> — линиите остават хоризонтални.";
+        }
+        r.addEventListener("input", up); r._reset = function () { r.value = 0; up() }; up();
+      })();
+
+      (function fold() {
+        var r = $("fold-range"); if (!r) return;
+        var box = $("fold-layers"), arr = $("fold-arrows"), lab = $("fold-lab"), la = $("fold-a"), ls = $("fold-s"), v = $("fold-val"), live = $("fold-live");
+        var layers = [{ y: 92, c: "#9BC97F", w: 12 }, { y: 116, c: "#D6BD9A", w: 18 }, { y: 146, c: "#C99A6A", w: 18 }, { y: 176, c: "#A8743F", w: 18 }];
+        function yAt(baseY, amp, left, right, x) { var ph = (x - left) / (right - left); return baseY - amp * Math.sin(ph * Math.PI * 3) }
+        function up() {
+          var c = +r.value / 100, amp = c * 46, left = 60 + c * 150, right = 700 - c * 150, n = 70, s = "";
+          for (var k = 0; k < layers.length; k++) {
+            var Lr = layers[k], pts = "";
+            for (var i = 0; i <= n; i++) { var x = left + (right - left) * i / n; pts += x.toFixed(1) + "," + yAt(Lr.y, amp, left, right, x).toFixed(1) + " " }
+            s += '<polyline points="' + pts + '" fill="none" stroke="' + Lr.c + '" stroke-width="' + Lr.w + '" stroke-linejoin="round" stroke-linecap="round"/>';
+          }
+          box.innerHTML = s;
+          var xa = left + (right - left) * 0.165, xs = left + (right - left) * 0.5;
+          la.setAttribute("x", xa); la.setAttribute("y", yAt(layers[0].y, amp, left, right, xa) - 16);
+          ls.setAttribute("x", xs); ls.setAttribute("y", yAt(layers[3].y, amp, left, right, xs) + 28);
+          lab.setAttribute("opacity", Math.min(1, c * 1.6));
+          arr.innerHTML = c > 0.02 ? '<path d="M' + (left - 46) + ' 134 l40 0 m-8 -7 l8 7 l-8 7" stroke="#13262E" stroke-width="2.5" fill="none"/><path d="M' + (right + 46) + ' 134 l-40 0 m8 -7 l-8 7 l8 7" stroke="#13262E" stroke-width="2.5" fill="none"/>' : "";
+          v.textContent = Math.round(c * 100) + "%";
+          live.innerHTML = c < 0.05 ? "Усили натиска от двете страни: пластовете се нагъват на <b>антиклинали</b> и <b>синклинали</b>, без да се разкъсват."
+            : "Хоризонталният натиск нагъва пластовете: нагоре изпъква <b>антиклинала</b>, надолу се вдлъбва <b>синклинала</b>. Целостта на скалите се <b>запазва</b>.";
+        }
+        r.addEventListener("input", up); r._reset = function () { r.value = 0; up() }; up();
+      })();
+
+      (function fault() {
+        var r = $("fault-range"); if (!r) return;
+        var mid = $("fault-mid"), left = $("fault-left"), right = $("fault-right"), lab = $("fault-lab"), g = $("fault-g"), v = $("fault-val"), live = $("fault-live");
+        function up() {
+          var t = +r.value, d = t * 0.55;
+          mid.setAttribute("transform", "translate(0," + d + ")");
+          left.setAttribute("transform", "translate(" + (-t * 0.12) + ",0)");
+          right.setAttribute("transform", "translate(" + (t * 0.12) + ",0)");
+          g.setAttribute("y", 150 + d);
+          lab.setAttribute("opacity", Math.min(1, t / 40));
+          v.textContent = t + "%";
+          live.innerHTML = t < 3 ? "Разтегли кората: средният блок пропада между разломите и образува <b>грабен</b>, а съседните остават издигнати — <b>хорстове</b>."
+            : "Кората се <b>разтяга</b>: средният блок пропада и образува <b>грабен</b> (като котловините у нас), а съседните остават издигнати — <b>хорстове</b> (Пирин, Беласица). Целостта е <b>нарушена</b>.";
+        }
+        r.addEventListener("input", up); r._reset = function () { r.value = 0; up() }; up();
+      })();
+
+      (function volc() {
+        var r = $("volc-range"); if (!r) return;
+        var col = $("volc-col"), cham = $("volc-cham"), lava = $("volc-lava"), ash = $("volc-ash"), shake = $("volc-shake"), btn = $("volc-erupt"), live = $("volc-live"), v = $("volc-val");
+        var topY = 88, botY = 296, type = "ef", busy = false;
+        function setCol() {
+          var p = +r.value, h = (botY - topY) * (p / 100);
+          col.setAttribute("y", botY - h); col.setAttribute("height", h);
+          cham.classList.toggle("crit", p >= 80);
+          v.textContent = p + "%";
+        }
+        function preview() {
+          live.innerHTML = type === "ef"
+            ? "Избран е <b>ефузивен</b> тип: при ниско налягане течната базалтова лава ще се излее спокойно по склоновете."
+            : "Избран е <b>експлозивен</b> тип: газовете и пепелта се натрупват и при критично налягане следва мощен взрив.";
+        }
+        r.addEventListener("input", setCol);
+        $("volc-type").addEventListener("click", function (e) {
+          var b = e.target.closest("button"); if (!b) return;
+          type = b.getAttribute("data-t");
+          [].forEach.call(this.children, function (c) { c.classList.toggle("on", c === b) });
+          preview();
+        });
+        function anim(dur, step, done) {
+          var t0 = null;
+          function fr(ts) { if (!t0) t0 = ts; var p = Math.min(1, (ts - t0) / dur); step(p); if (p < 1) requestAnimationFrame(fr); else done && done() }
+          requestAnimationFrame(fr);
+        }
+        btn.addEventListener("click", function () {
+          if (busy) return; busy = true; btn.disabled = true;
+          var strong = Math.max(0.25, (+r.value) / 100);
+          if (type === "ef") {
+            lava.setAttribute("opacity", "1");
+            anim(2200, function (p) {
+              lava.setAttribute("transform", "translate(380,90) scale(1," + p.toFixed(3) + ") translate(-380,-90)");
+            }, function () {
+              live.innerHTML = "<b>Ефузивно изригване:</b> течната лава се изля по полегатите склонове и се втвърди на нов пласт. Налягането спадна.";
+              r.value = 8; setCol(); busy = false; btn.disabled = false;
+            });
+          } else {
+            ash.setAttribute("opacity", "1");
+            anim(2200, function (p) {
+              var sc = 0.2 + p * 2.0;
+              ash.setAttribute("transform", "translate(380,72) scale(" + sc.toFixed(3) + ") translate(-380,-72)");
+              ash.setAttribute("opacity", (1 - p * 0.85).toFixed(3));
+              var j = (1 - p) * 8 * strong;
+              shake.setAttribute("transform", "translate(" + ((Math.random() - 0.5) * j).toFixed(1) + "," + ((Math.random() - 0.5) * j).toFixed(1) + ")");
+            }, function () {
+              shake.setAttribute("transform", "translate(0,0)"); ash.setAttribute("opacity", "0");
+              live.innerHTML = "<b>Експлозивно изригване:</b> газовете и пепелта изхвърчаха нагоре с мощен взрив. Такива изригвания изграждат високи конусовидни вулкани.";
+              r.value = 8; setCol(); busy = false; btn.disabled = false;
+            });
+          }
+        });
+        r._reset = function () { r.value = 10; type = "ef";[].forEach.call($("volc-type").children, function (c) { c.classList.toggle("on", c.getAttribute("data-t") === "ef") }); lava.setAttribute("opacity", "0"); ash.setAttribute("opacity", "0"); shake.setAttribute("transform", "translate(0,0)"); setCol(); preview() };
+        setCol();
+      })();
+
+      (function quake() {
+        var dp = $("quake-depth"); if (!dp) return;
+        var mg = $("quake-mag"), go = $("quake-go"), hypo = $("quake-hypo"), vline = $("quake-vline"), hlab = $("quake-hlab"), houses = $("quake-houses"), waves = $("quake-waves"), dval = $("quake-dval"), mval = $("quake-mval"), live = $("quake-live");
+        var surf = 112, busy = false;
+        var rom = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+        function depthKm() { return Math.round((+dp.value - 20) / 150 * 80 + 8) }
+        function place() {
+          var y = surf + (+dp.value); hypo.setAttribute("cy", y); vline.setAttribute("y2", y); hlab.setAttribute("y", y + 4);
+          var km = depthKm(), word = (+dp.value) < 70 ? "плитко" : ((+dp.value) < 130 ? "средно" : "дълбоко");
+          dval.textContent = word + " · " + km + " km";
+        }
+        function setMag() { mval.textContent = "M " + ((+mg.value) / 10).toFixed(1) }
+        function intensity() { var m = (+mg.value) / 10, km = depthKm(); return Math.max(1, Math.min(12, Math.round(1.6 * m - km / 14))) }
+        dp.addEventListener("input", place); mg.addEventListener("input", setMag);
+        go.addEventListener("click", function () {
+          if (busy) return; busy = true; go.disabled = true;
+          var m = (+mg.value) / 10, km = depthKm(), I = intensity();
+          var amp = Math.max(1.5, I * 0.9), y = surf + (+dp.value), dur = 1100 + (m - 4) * 420;
+          var t0 = null;
+          function fr(ts) {
+            if (!t0) t0 = ts; var p = Math.min(1, (ts - t0) / dur);
+            var R = p * 520, op = (1 - p) * 0.7;
+            waves.innerHTML = '<circle cx="380" cy="' + y + '" r="' + (R * 0.45).toFixed(0) + '" fill="none" stroke="#E2592A" stroke-width="2.5" opacity="' + op.toFixed(2) + '"/><circle cx="380" cy="' + y + '" r="' + (R * 0.7).toFixed(0) + '" fill="none" stroke="#E2592A" stroke-width="2" opacity="' + (op * 0.7).toFixed(2) + '"/><circle cx="380" cy="' + y + '" r="' + R.toFixed(0) + '" fill="none" stroke="#E2592A" stroke-width="1.5" opacity="' + (op * 0.5).toFixed(2) + '"/>';
+            var j = amp * (1 - p);
+            houses.setAttribute("transform", "translate(" + ((Math.random() - 0.5) * j).toFixed(1) + "," + ((Math.random() - 0.5) * j * 0.5).toFixed(1) + ")");
+            if (p < 1) requestAnimationFrame(fr);
+            else {
+              houses.setAttribute("transform", "translate(0,0)"); waves.innerHTML = "";
+              live.innerHTML = "Магнитуд <b>M " + m.toFixed(1) + "</b>, дълбочина <b>" + km + " km</b> → интензивност в епицентъра ≈ степен <b>" + rom[I] + "</b>. По-плиткото огнище разтърсва повърхността по-силно.";
+              busy = false; go.disabled = false;
+            }
+          }
+          requestAnimationFrame(fr);
+        });
+        dp._reset = function () { dp.value = 60; mg.value = 60; place(); setMag(); waves.innerHTML = ""; houses.setAttribute("transform", "translate(0,0)"); live.innerHTML = "Избери дълбочина и магнитуд, после активирай. Колкото по-<b>плитък</b> е хипоцентърът, толкова по-силно се усеща на повърхността." };
+        place(); setMag();
+      })();
+
+      [].forEach.call(document.querySelectorAll(".sim-reset"), function (b) {
+        b.addEventListener("click", function () {
+          var k = b.getAttribute("data-r");
+          var el = ({ osc: "osc-range", fold: "fold-range", fault: "fault-range", volc: "volc-range", quake: "quake-depth" })[k];
+          var t = document.getElementById(el); if (t && t._reset) t._reset();
+        });
+      });
+    })();
+  </script>
+
+</body>
+
+</html>
