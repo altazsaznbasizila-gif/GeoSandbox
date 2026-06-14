@@ -1,10 +1,7 @@
-/* ============ ТОКЕНИ ============ */
 :root {
   --paper: #EDF2F2;
-  /* хартия на хидрографска карта */
   --paper-deep: #E1E9EA;
   --ink: #13262E;
-  /* картографско мастило */
   --muted: #54707A;
   --line: #C7D4D6;
   --sky: #3E8FD0;
@@ -43,7 +40,6 @@ body[data-view="litosfera"] {
   --accent-soft: var(--rock-soft);
 }
 
-/* ============ ОСНОВА ============ */
 * {
   box-sizing: border-box
 }
@@ -58,7 +54,6 @@ body {
   color: var(--ink);
   font-family: var(--body);
   font-size: clamp(112%, 1.3vw, 137%);
-  /* ~18px на телефон → ~22px на голям екран */
   line-height: 1.62;
   -webkit-font-smoothing: antialiased;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='620' height='620' viewBox='0 0 620 620'%3E%3Cg fill='none' stroke='%2313262E' stroke-width='1' opacity='0.045'%3E%3Cpath d='M0 90 Q155 40 310 90 T620 90'/%3E%3Cpath d='M0 150 Q155 105 310 150 T620 150'/%3E%3Cpath d='M0 210 Q155 175 310 210 T620 210'/%3E%3Cpath d='M0 400 Q155 460 310 400 T620 400'/%3E%3Cpath d='M0 470 Q155 520 310 470 T620 470'/%3E%3Cellipse cx='470' cy='300' rx='90' ry='34'/%3E%3Cellipse cx='470' cy='300' rx='55' ry='18'/%3E%3C/g%3E%3C/svg%3E");
@@ -106,7 +101,6 @@ p {
   border-radius: 4px
 }
 
-/* координатни деления — като рамка на картен лист */
 .ticks {
   height: 8px;
   border-top: 1px solid var(--ink);
@@ -114,7 +108,6 @@ p {
   background: repeating-linear-gradient(90deg, var(--ink) 0 1px, transparent 1px 48px);
 }
 
-/* ============ ГОРНА ЛЕНТА ============ */
 .topbar {
   position: sticky;
   top: 0;
@@ -178,7 +171,6 @@ p {
   background: var(--accent-soft)
 }
 
-/* ============ ОБЩИ ЕЛЕМЕНТИ ============ */
 .eyebrow {
   font-family: var(--mono);
   font-size: clamp(80%, .95vw, 90%);
@@ -225,7 +217,6 @@ p {
   font-size: clamp(175%, 3.5vw, 245%)
 }
 
-/* ============ ХЕРО (НАЧАЛО) ============ */
 .hero {
   position: relative;
   overflow: hidden
@@ -270,7 +261,6 @@ p {
   margin: 3.4vh 0 1vh
 }
 
-/* подписният елемент: разрез на планетата */
 .hero-art {
   margin: 0;
   animation: rise 1s ease both .15s
@@ -345,7 +335,6 @@ p {
   animation: pulse 6s ease-in-out infinite
 }
 
-/* ============ КАРТИ-РАЗДЕЛИ ============ */
 .cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -463,7 +452,6 @@ p {
   color: var(--rock-deep)
 }
 
-/* ============ ЛЕГЕНДА ============ */
 .legend {
   border: 1.5px solid var(--ink);
   border-radius: 16px;
@@ -523,7 +511,6 @@ p {
   margin: 0
 }
 
-/* ============ ПОДСТРАНИЦИ ============ */
 .phero {
   position: relative;
   border-bottom: 1px solid var(--line);
@@ -608,7 +595,6 @@ p {
   letter-spacing: .05em
 }
 
-/* уроци */
 .lessons-block {
   padding-top: 7vh;
   padding-bottom: 9vh
@@ -704,7 +690,6 @@ p {
   border-color: var(--accent-deep)
 }
 
-/* ============ ФУТЪР ============ */
 .footer {
   margin-top: 3vh
 }
@@ -755,7 +740,6 @@ p {
   background: var(--ink)
 }
 
-/* ============ АНИМАЦИИ ============ */
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -808,7 +792,6 @@ p {
   }
 }
 
-/* ============ АДАПТИВНОСТ ============ */
 @media (max-width:940px) {
   .cards {
     grid-template-columns: 1fr 1fr
@@ -871,7 +854,6 @@ p {
   }
 }
 
-/* ============ УРОЧНА СТРАНИЦА ============ */
 .lessonpage {
   padding-top: 6vh;
   padding-bottom: 2vh
@@ -1152,11 +1134,6 @@ p {
   }
 }
 
-/* ===================================================================
-   СТИЛОВЕ ЗА СТРАНИЦИ НА УРОЦИ
-   =================================================================== */
-
-/* — херо на урока — */
 .lesson-hero {
   position: relative;
   border-bottom: 1px solid var(--line);
@@ -1234,7 +1211,6 @@ p {
   margin-bottom: 8px
 }
 
-/* — съдържание / навигация в урока — */
 .toc {
   display: flex;
   flex-wrap: wrap;
@@ -1258,9 +1234,8 @@ p {
   color: #fff
 }
 
-/* — статия — */
 .article {
-  max-width: 760px;
+  max-width: 1040px;
   margin: 0 auto;
   padding-top: 5vh;
   padding-bottom: 2vh
@@ -1317,7 +1292,6 @@ p {
   border-bottom: 1px solid var(--accent)
 }
 
-/* термин в текста */
 .term {
   font-weight: 700;
   color: var(--accent-deep);
@@ -1325,7 +1299,6 @@ p {
   padding: 0 2px
 }
 
-/* кутия с определение на термин */
 .defbox {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -1359,7 +1332,6 @@ p {
   color: var(--ink)
 }
 
-/* списък с определения (по-компактен) */
 .deflist {
   list-style: none;
   margin: 2vh 0;
@@ -1386,7 +1358,6 @@ p {
   font-size: clamp(98%, 1.1vw, 108%)
 }
 
-/* акцентна кутия с факт */
 .factbox {
   background: var(--accent-soft);
   border-radius: 14px;
@@ -1435,7 +1406,6 @@ p {
   margin-top: 6px
 }
 
-/* фигура със схема */
 .fig {
   margin: 3vh 0;
   background: #fff;
@@ -1475,7 +1445,6 @@ p {
   fill: #fff
 }
 
-/* двуколонна мрежа за схеми/сравнения */
 .duo {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1487,7 +1456,6 @@ p {
   margin: 0
 }
 
-/* място за бъдеща симулация */
 .simslot {
   position: relative;
   border: 2px dashed var(--accent);
@@ -1528,7 +1496,6 @@ p {
   margin: 0 auto 1.4vh
 }
 
-/* въпроси и задачи */
 .tasks {
   background: var(--ink);
   color: var(--paper);
@@ -1578,7 +1545,6 @@ p {
   text-align: center
 }
 
-/* навигация между уроци */
 .lnav {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1644,7 +1610,6 @@ p {
   }
 }
 
-/* връзки в списъка с уроци на раздела */
 .lesson h4 a {
   color: inherit
 }
