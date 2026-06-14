@@ -1,220 +1,677 @@
 <!doctype html>
 <html lang="bg">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Урок 21 · Литосфера и тектоника на плочите · ГеоСфера</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Sofia+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles.css">
-</head>
-<body data-view="litosfera">
 
-<header class="topbar">
-  <div class="wrap topbar-inner">
-    <a class="brand" href="../index.html">
-      <svg viewBox="0 0 32 32" fill="none" stroke-linecap="round" aria-hidden="true">
-        <circle cx="16" cy="16" r="14" stroke="#13262E" stroke-width="1.6"/>
-        <path d="M6 11.5a12.4 12.4 0 0 1 20 0" stroke="#3E8FD0" stroke-width="3"/>
-        <path d="M4.6 17h22.8" stroke="#0D7387" stroke-width="3"/>
-        <path d="M7.5 23.5a12.4 12.4 0 0 0 17 0" stroke="#A8551E" stroke-width="3"/>
-      </svg>
-      ГеоСфера
-    </a>
-    <nav class="nav" aria-label="Основна навигация">
-      <a href="../index.html">Начало</a>
-      <a href="../atmosfera.html">Атмосфера</a>
-      <a href="../hidrosfera.html">Хидросфера</a>
-      <a href="../litosfera.html" class="on" aria-current="page">Литосфера</a>
-    </nav>
-  </div>
-  <div class="ticks" aria-hidden="true"></div>
-</header>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Урок 21 · Литосфера и тектоника на плочите · ГеоСфера</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Sofia+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+      .article.wrap {
+        max-width: 1040px
+      }
 
-<main>
+      .sim {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 2.4vh 24px 2.8vh;
+        margin: 3vh 0;
+        box-shadow: 0 8px 26px rgba(19, 38, 46, .07)
+      }
 
-<section class="page">
-  <div class="lesson-hero">
-    <div class="wrap lh-inner">
-      <p class="lh-tag"><span class="num">Урок 21</span> Литосфера</p>
-      <h1 class="lh-title">Литосфера. Състав на земната кора. Тектоника на плочите</h1>
-      <div class="lh-questions">
-        <span class="qlbl">Водещи въпроси</span>
-        <p>Как варовикът се е превърнал в мрамор? Защо разломът Сан Андреас в Калифорния продължава да е активен и създава опасност от силни земетресения? Как се е образувала Марианската падина?</p>
+      .sim-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 1.6vh;
+        flex-wrap: wrap
+      }
+
+      .sim-tag {
+        font-family: var(--mono);
+        font-size: clamp(74%, .85vw, 82%);
+        text-transform: uppercase;
+        letter-spacing: .14em;
+        color: var(--accent-deep);
+        background: var(--accent-soft);
+        padding: .6vh 14px;
+        border-radius: 999px
+      }
+
+      .sim-reset {
+        font-family: var(--mono);
+        font-size: clamp(74%, .85vw, 82%);
+        color: var(--muted);
+        background: none;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: .6vh 14px;
+        cursor: pointer;
+        transition: .2s
+      }
+
+      .sim-reset:hover {
+        border-color: var(--accent);
+        color: var(--accent-deep)
+      }
+
+      .sim-svg {
+        width: 100%;
+        height: auto;
+        display: block;
+        background: var(--paper);
+        border-radius: 12px
+      }
+
+      .sim-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px 26px;
+        align-items: end;
+        margin-top: 2vh
+      }
+
+      .sim-field {
+        flex: 1 1 240px;
+        min-width: 210px
+      }
+
+      .sim-field label {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        font-family: var(--mono);
+        font-size: clamp(76%, .86vw, 84%);
+        color: var(--ink);
+        margin-bottom: .7vh
+      }
+
+      .sim-field label b {
+        color: var(--accent-deep)
+      }
+
+      .sim-range {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 6px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+        outline: none;
+        margin: 0
+      }
+
+      .sim-range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--accent-deep);
+        cursor: pointer;
+        border: 3px solid #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .25)
+      }
+
+      .sim-range::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--accent-deep);
+        cursor: pointer;
+        border: 3px solid #fff
+      }
+
+      .sim-toggle {
+        display: inline-flex;
+        border: 1px solid var(--accent);
+        border-radius: 999px;
+        overflow: hidden;
+        flex-wrap: wrap
+      }
+
+      .sim-toggle button {
+        font-family: var(--mono);
+        font-size: clamp(76%, .88vw, 86%);
+        padding: 1vh 18px;
+        background: #fff;
+        border: none;
+        cursor: pointer;
+        color: var(--accent-deep);
+        transition: .2s
+      }
+
+      .sim-toggle button.on {
+        background: var(--accent);
+        color: #fff
+      }
+
+      .sim-live {
+        margin-top: 1.8vh;
+        font-size: clamp(96%, 1.08vw, 106%);
+        line-height: 1.6;
+        color: var(--ink);
+        background: var(--accent-soft);
+        border-radius: 10px;
+        padding: 1.6vh 18px
+      }
+
+      .sim-live b {
+        color: var(--accent-deep)
+      }
+
+      .sl {
+        font-family: var(--mono);
+        font-size: 13px;
+        fill: var(--ink)
+      }
+
+      .sl.sm {
+        font-size: 11px
+      }
+
+      .sl.wt {
+        fill: #fff
+      }
+    </style>
+  </head>
+
+  <body data-view="litosfera">
+
+    <header class="topbar">
+      <div class="wrap topbar-inner">
+        <a class="brand" href="../index.html">
+          <svg viewBox="0 0 32 32" fill="none" stroke-linecap="round" aria-hidden="true">
+            <circle cx="16" cy="16" r="14" stroke="#13262E" stroke-width="1.6" />
+            <path d="M6 11.5a12.4 12.4 0 0 1 20 0" stroke="#3E8FD0" stroke-width="3" />
+            <path d="M4.6 17h22.8" stroke="#0D7387" stroke-width="3" />
+            <path d="M7.5 23.5a12.4 12.4 0 0 0 17 0" stroke="#A8551E" stroke-width="3" />
+          </svg>
+          ГеоСфера
+        </a>
+        <nav class="nav" aria-label="Основна навигация">
+          <a href="../index.html">Начало</a>
+          <a href="../atmosfera.html">Атмосфера</a>
+          <a href="../hidrosfera.html">Хидросфера</a>
+          <a href="../litosfera.html" class="on" aria-current="page">Литосфера</a>
+        </nav>
       </div>
-      <div class="toc">
-        <a href="#stroezh">Вътрешен строеж</a>
-        <a href="#kora">Земна кора</a>
-        <a href="#litosfera">Литосфера</a>
-        <a href="#tektonika">Тектоника на плочите</a>
-        <a href="#skali">Видове скали</a>
+      <div class="ticks" aria-hidden="true"></div>
+    </header>
+
+    <main>
+
+      <section class="page">
+        <div class="lesson-hero">
+          <div class="wrap lh-inner">
+            <p class="lh-tag"><span class="num">Урок 21</span> Литосфера</p>
+            <h1 class="lh-title">Литосфера. Състав на земната кора. Тектоника на плочите</h1>
+            <div class="lh-questions">
+              <span class="qlbl">Водещи въпроси</span>
+              <p>Как варовикът се е превърнал в мрамор? Защо разломът Сан Андреас в Калифорния продължава да е активен и
+                създава опасност от силни земетресения? Как се е образувала Марианската падина?</p>
+            </div>
+            <div class="toc">
+              <a href="#stroezh">Вътрешен строеж</a>
+              <a href="#kora">Земна кора</a>
+              <a href="#litosfera">Литосфера</a>
+              <a href="#tektonika">Тектоника на плочите</a>
+              <a href="#skali">Видове скали</a>
+            </div>
+          </div>
+        </div>
+
+        <article class="article wrap">
+
+          <div class="sec" id="stroezh">
+            <p class="sec-eyebrow"><span class="sn">1</span> Вътрешен строеж на Земята</p>
+            <h3>Как разбираме какво има под краката ни</h3>
+            <p>Прякото изследване на земните недра е невъзможно заради огромния размер на Земята, високата температура и
+              голямото налягане във вътрешността ѝ. Затова учените използват <span class="term">непреки методи</span>.
+              Най-важен е <span class="term">сеизмичният метод</span> — анализира се разпространението на сеизмичните
+              вълни, които възникват при земетресения. Скоростта им силно зависи от средата, през която преминават, и
+              точно резките промени в тази скорост издават къде минават границите между отделните слоеве. Така са открити
+              земното ядро, мантията и земната кора.</p>
+
+            <div class="defbox"><span class="def-term">Земно ядро</span>
+              <p>Намира се на дълбочина под 2900 km и е с много високи температура и налягане. Има <b>външно ядро</b> в
+                разтопено състояние, в което се генерира магнитното поле на Земята, и твърдо <b>вътрешно ядро</b>.</p>
+            </div>
+
+            <div class="defbox"><span class="def-term">Мантия</span>
+              <p>Най-голямата по обем част — дебелина около 2900 km, съставлява 84% от обема и 2/3 от масата на Земята.
+                Дели се на горна и долна мантия (границата е на около 660 km). На контакта с ядрото температурата
+                надхвърля 4000°C, но огромното налягане задържа веществото в твърдо състояние.</p>
+            </div>
+
+            <div class="defbox"><span class="def-term">Астеносфера</span>
+              <p>Вътрешната, полуразтопена и пластична част на горната мантия. Горната ѝ граница е на 80–200 km дълбочина,
+                където температурата достига около 1300°C. Именно върху астеносферата „плуват“ и се местят литосферните
+                плочи.</p>
+            </div>
+          </div>
+
+          <div class="sec" id="kora">
+            <p class="sec-eyebrow"><span class="sn">2</span> Земна кора</p>
+            <h3>Най-тънката, но най-позната обвивка</h3>
+            <p>Земната кора е най-външният и най-тънък слой и заема по-малко от 1% от обема на Земята. Различават се два
+              типа според състава и дебелината.</p>
+
+            <div class="sim" id="sim-crust">
+              <div class="sim-bar"><span class="sim-tag">Симулация · типове земна кора</span>
+                <button class="sim-reset" data-r="crust">↺ Нулирай</button>
+              </div>
+              <svg class="sim-svg" id="crust-svg" viewBox="0 0 760 350" role="img" aria-label="Симулация на двата типа земна кора">
+                <defs>
+                  <linearGradient id="c-mant" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#E2592A" />
+                    <stop offset="1" stop-color="#F0A341" />
+                  </linearGradient>
+                </defs>
+                <g stroke="#C7D4D6" stroke-width="1">
+                  <line x1="150" y1="70" x2="640" y2="70" />
+                  <line x1="150" y1="115" x2="150" y2="320" />
+                </g>
+                <g id="crust-ruler"></g>
+                <rect id="crust-mantle" x="260" y="70" width="330" height="265" fill="url(#c-mant)" />
+                <g id="crust-layers"></g>
+                <path id="crust-brace" d="" stroke="#13262E" stroke-width="1.5" fill="none" />
+                <text id="crust-total" x="612" y="120" class="sl" font-weight="600" fill="#13262E"></text>
+                <text x="425" y="326" class="sl wt" text-anchor="middle">ГОРНА МАНТИЯ (астеносфера)</text>
+              </svg>
+              <div class="sim-controls">
+                <div>
+                  <div class="sim-toggle" id="crust-type">
+                    <button type="button" data-t="oc" class="on">Океанска</button>
+                    <button type="button" data-t="co">Континентална</button>
+                  </div>
+                </div>
+                <div class="sim-field">
+                  <label>Дебелина на кората <b id="crust-val">7 km</b></label>
+                  <input class="sim-range" id="crust-range" type="range" min="5" max="8" value="7">
+                </div>
+              </div>
+              <p class="sim-live" id="crust-live">Превключи типа и движи дебелината. <b>Океанската</b> е тънка (5–8 km) и
+                е от базалт; <b>континенталната</b> е дебела (30–50 km) и трислойна.</p>
+            </div>
+
+            <div class="defbox"><span class="def-term">Океански тип земна кора</span>
+              <p>По-тънък (5–8 km) и еднообразен по състав. Изграден е главно от плътни и тежки скали като базалтите,
+                върху които лежи тънка седиментна покривка.</p>
+            </div>
+            <div class="defbox"><span class="def-term">Континентален тип земна кора</span>
+              <p>По-дебел (30–50 km) и с по-сложен, трислоен строеж: базалтов слой, над него гранитен слой с по-леки скали
+                и най-отгоре — седиментен слой, който не е разпространен навсякъде.</p>
+            </div>
+          </div>
+
+          <div class="sec" id="litosfera">
+            <p class="sec-eyebrow"><span class="sn">3</span> Литосфера</p>
+            <h3>Твърдата черупка на планетата</h3>
+            <p>Литосферата обхваща най-външната твърда част от горната мантия и цялата земна кора. Това, което обединява
+              двете части, е състоянието на веществото — и в двете то е твърдо. Различават се само по скалния си състав.
+            </p>
+          </div>
+
+          <div class="sec" id="tektonika">
+            <p class="sec-eyebrow"><span class="sn">4</span> Тектоника на плочите</p>
+            <h3>Земята като подвижен пъзел</h3>
+            <p>Тектониката на плочите е теория, според която литосферата не е цялостна обвивка, а <span class="term">пъзел</span> от няколко по-малки части — <span class="term">литосферни плочи</span>. Те не
+              стоят на едно място, а се плъзгат много бавно върху пластичната астеносфера и са в постоянен контакт помежду
+              си. Различават се три типа граници на взаимодействие.</p>
+
+            <div class="sim" id="sim-bound">
+              <div class="sim-bar"><span class="sim-tag">Симулация · граници на плочите</span>
+                <button class="sim-reset" data-r="bound">↺ Нулирай</button>
+              </div>
+              <svg class="sim-svg" id="bound-svg" viewBox="0 0 760 300" role="img" aria-label="Симулация на трите типа граници">
+                <defs>
+                  <linearGradient id="b-ast" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#E2592A" />
+                    <stop offset="1" stop-color="#F4B65A" />
+                  </linearGradient>
+                  <linearGradient id="b-mag" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#FFD34B" />
+                    <stop offset="1" stop-color="#E2592A" />
+                  </linearGradient>
+                </defs>
+                <rect x="0" y="0" width="760" height="300" fill="#EAF2F6" />
+                <rect id="b-asteno" x="0" y="196" width="760" height="104" fill="url(#b-ast)" />
+                <text id="b-asteno-lbl" x="20" y="285" class="sl wt">АСТЕНОСФЕРА</text>
+
+                <g id="b-div">
+                  <g id="bd-l">
+                    <rect x="20" y="132" width="352" height="64" fill="#6E4326" />
+                    <rect x="20" y="120" width="352" height="12" fill="#D6BD9A" />
+                  </g>
+                  <g id="bd-r">
+                    <rect x="388" y="132" width="352" height="64" fill="#6E4326" />
+                    <rect x="388" y="120" width="352" height="12" fill="#C9A36A" />
+                  </g>
+                  <polygon id="bd-magma" points="372,196 388,196 386,150 374,150" fill="url(#b-mag)" />
+                  <path id="bd-al" d="M150 104 l-44 0 m10 -7 l-10 7 l10 7" stroke="#13262E" stroke-width="2.5" fill="none" />
+                  <path id="bd-ar" d="M610 104 l44 0 m-10 -7 l10 7 l-10 7" stroke="#13262E" stroke-width="2.5" fill="none" />
+                  <text x="380" y="100" class="sl" text-anchor="middle" font-weight="600" fill="#7E3F14">рифт · СОХ · нова
+                    кора</text>
+                </g>
+
+                <g id="b-conv" style="display:none">
+                  <g id="bc-ocean">
+                    <polygon points="402,140 760,140 760,166 402,166" fill="#6E4326" />
+                    <polygon points="402,140 760,140 760,148 402,148" fill="#C9A36A" />
+                  </g>
+                  <g id="bc-cont">
+                    <rect x="40" y="118" width="362" height="78" fill="#A8743F" />
+                    <rect x="40" y="106" width="362" height="12" fill="#D6BD9A" />
+                  </g>
+                  <polygon id="bc-trench" points="398,118 416,118 404,138" fill="#13262E" opacity=".55" />
+                  <g id="bc-volc" opacity="0">
+                    <polygon points="300,118 330,64 360,118" fill="#7E3F14" />
+                    <polygon points="322,80 338,80 332,118 328,118" fill="url(#b-mag)" />
+                  </g>
+                  <path id="bc-ar" d="M610 104 l-44 0 m10 -7 l-10 7 l10 7" stroke="#13262E" stroke-width="2.5" fill="none" />
+                  <text x="210" y="100" class="sl" text-anchor="middle" font-weight="600" fill="#7E3F14">подпъхване ·
+                    падина · планини</text>
+                </g>
+
+                <g id="b-trans" style="display:none">
+                  <rect x="0" y="40" width="760" height="240" fill="#BFCBb0" />
+                  <g id="bt-l">
+                    <rect x="0" y="40" width="380" height="240" fill="#9CA882" />
+                    <rect x="60" y="150" width="320" height="12" fill="#5BA3D0" />
+                    <rect x="120" y="40" width="14" height="240" fill="#86946C" opacity=".5" />
+                  </g>
+                  <g id="bt-r">
+                    <rect x="380" y="40" width="380" height="240" fill="#AEB994" />
+                    <rect x="380" y="150" width="320" height="12" fill="#5BA3D0" />
+                    <rect x="600" y="40" width="14" height="240" fill="#98A57E" opacity=".5" />
+                  </g>
+                  <line x1="380" y1="40" x2="380" y2="280" stroke="#13262E" stroke-width="2.5" stroke-dasharray="6 6" />
+                  <path id="bt-al" d="M210 70 l0 -26 m-7 10 l7 -10 l7 10" stroke="#13262E" stroke-width="2.5" fill="none" />
+                  <path id="bt-ar" d="M560 252 l0 26 m-7 -10 l7 10 l7 -10" stroke="#13262E" stroke-width="2.5" fill="none" />
+                  <text x="380" y="30" class="sl" text-anchor="middle" font-weight="600" fill="#7E3F14">поглед отгоре ·
+                    хоризонтално плъзгане (Сан Андреас)</text>
+                </g>
+              </svg>
+              <div class="sim-controls">
+                <div>
+                  <div class="sim-toggle" id="bound-type">
+                    <button type="button" data-t="div" class="on">Отваряне</button>
+                    <button type="button" data-t="conv">Затваряне</button>
+                    <button type="button" data-t="trans">Отместване</button>
+                  </div>
+                </div>
+                <div class="sim-field">
+                  <label>Движение на плочите <b id="bound-val">0%</b></label>
+                  <input class="sim-range" id="bound-range" type="range" min="0" max="100" value="0">
+                </div>
+              </div>
+              <p class="sim-live" id="bound-live">Избери тип граница и движи плочите. При <b>отваряне</b> се ражда нова
+                кора, при <b>затваряне</b> една плоча се подпъхва под друга, при <b>отместване</b> плочите се плъзгат
+                хоризонтално.</p>
+            </div>
+
+            <div class="defbox"><span class="def-term">Граници на отваряне</span>
+              <p>Тук се ражда най-новата земна кора. По дължина на продълговат рифт изтича базалтова лава; след като се
+                втвърди, издигащата се магма я избутва встрани и отваря рифта. Това е силата, която движи плочите.
+                Рифтовете изграждат срединните океански хребети (СОХ) — глобална система с дължина близо 80 000 km. Над
+                океана СОХ образува острови, например Исландия.</p>
+            </div>
+
+            <div class="defbox"><span class="def-term">Граници на затваряне</span>
+              <p>Старата кора се поглъща и разтопява чрез подпъхване на едната плоча под другата. По-тежката океанска кора
+                потъва под по-леката континентална, разтопява се и дава магма, от която се образуват андезити. Успоредно
+                възникват дълбоководни океански падини, а удебелената континентална плоча образува планински вериги. Две
+                океански плочи дават островни дъги с дълбока океанска падина (Марианските острови и Марианската падина).
+                Две континентални плочи се сблъскват и изграждат високи планини — например Хималаите, където Индийската
+                плоча се сблъсква с Евроазиатската и кората е по-дебела от 70 km.</p>
+            </div>
+
+            <div class="defbox"><span class="def-term">Граници на отместване</span>
+              <p>Изключително дълбоки пукнатини в литосферата, по които плочите се преместват хоризонтално една спрямо
+                друга. Типичен пример е разломът Сан Андреас. По всички граници на затваряне и отместване протича активна
+                земетръсна и вулканична дейност.</p>
+            </div>
+          </div>
+
+          <div class="sec" id="skali">
+            <p class="sec-eyebrow"><span class="sn">5</span> Видове скали</p>
+            <h3>Каменната азбука на земната кора</h3>
+            <ul class="deflist">
+              <li><b>Магмени скали</b>
+                <p>Образуват се при изстиване на магмата. <b>Интрузивните</b> застиват бавно вътре в кората и са от едри
+                  кристали — най-разпространена е гранитът (твърд, но с по-малка плътност). <b>Ефузивните</b> застиват
+                  бързо на повърхността и са от микроскопични кристали — такива са базалтът (тъмен, в рифтовите зони) и
+                  андезитът (изгражда островните дъги).</p>
+              </li>
+              <li><b>Седиментни (утаечни) скали</b>
+                <p>Образуват се при отлагане във водни басейни или върху сушата на късове скали, измрели организми и
+                  химични утайки, пренесени от водата, вятъра, ледниците или гравитацията. Подреждат се на хоризонтални
+                  слоеве и често съдържат вкаменелости. Примери: варовик (от черупки и скелети), пясъчник, конгломерат,
+                  льос.</p>
+              </li>
+              <li><b>Метаморфни скали</b>
+                <p>Получават се при преобразуване на магмени или седиментни скали дълбоко в кората под въздействие на
+                  висока температура и налягане. Минералите прекристализират, без да се стига до разтопяване. Примери:
+                  гнайс и шист; мраморът се образува при метаморфоза на варовик.</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="tasks">
+            <h3>Въпроси и задачи</h3>
+            <ol>
+              <li>Направете схема на вътрешния строеж на Земята. Сравнете двата типа земна кора.</li>
+              <li>Характеризирайте скалния състав на земната кора.</li>
+              <li>Обяснете тектониката на плочите.</li>
+              <li>Потърсете в интернет информация за рифта Силфра на остров Исландия.</li>
+            </ol>
+          </div>
+
+          <nav class="lnav" aria-label="Между уроците">
+            <a class="prev disabled"><span class="dir">← Предходен</span><span class="ttl">—</span></a>
+            <a class="next" href="urok-22.html"><span class="dir">Следващ →</span><span class="ttl">22 · Ендогенни
+                релефообразуващи процеси</span></a>
+          </nav>
+
+          <a class="back" href="../litosfera.html">← Обратно към раздел Литосфера</a>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="ticks" aria-hidden="true"></div>
+      <div class="wrap footer-grid">
+        <div>
+          <p class="fbrand">ГеоСфера</p>
+          <p class="fnote">Учебен атлас по география и икономика · 8. клас</p>
+        </div>
+        <div>
+          <div class="scalebar" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <p class="fnote mono">лист K-35 · България · © 2026</p>
+        </div>
       </div>
-    </div>
-  </div>
+    </footer>
 
-  <article class="article wrap">
+    <script>
+      (function() {
+        var $ = function(id) {
+          return document.getElementById(id)
+        };
 
-    <div class="sec" id="stroezh">
-      <p class="sec-eyebrow"><span class="sn">1</span> Вътрешен строеж на Земята</p>
-      <h3>Как разбираме какво има под краката ни</h3>
-      <p>Прякото изследване на земните недра е невъзможно заради огромния размер на Земята, високата температура и голямото налягане във вътрешността ѝ. Затова учените използват <span class="term">непреки методи</span>. Най-важен е <span class="term">сеизмичният метод</span> — анализира се разпространението на сеизмичните вълни, които възникват при земетресения. Скоростта им силно зависи от средата, през която преминават, и точно резките промени в тази скорост издават къде минават границите между отделните слоеве. Така са открити земното ядро, мантията и земната кора.</p>
+        (function crust() {
+          var r = $("crust-range");
+          if (!r) return;
+          var box = $("crust-layers"),
+            ruler = $("crust-ruler"),
+            total = $("crust-total"),
+            brace = $("crust-brace"),
+            v = $("crust-val"),
+            live = $("crust-live");
+          var x0 = 260,
+            w = 330,
+            surfaceY = 70,
+            scale = 4.6;
+          var ranges = {
+              oc: [5, 8, 7],
+              co: [30, 50, 40]
+            },
+            type = "oc";
+          var rk = "";
+          for (var km = 0; km <= 55; km += 10) {
+            var y = surfaceY + km * scale;
+            rk += '<line x1="144" y1="' + y + '" x2="156" y2="' + y + '" stroke="#54707A" stroke-width="1.5"/><text x="138" y="' + (y + 4) + '" class="sl sm" text-anchor="end" fill="#54707A">' + km + '</text>'
+          }
+          rk += '<text x="120" y="60" class="sl sm" text-anchor="end" fill="#54707A">km</text>';
+          ruler.innerHTML = rk;
 
-      <div class="defbox"><span class="def-term">Земно ядро</span>
-      <p>Намира се на дълбочина под 2900 km и е с много високи температура и налягане. Има <b>външно ядро</b> в разтопено състояние, в което се генерира магнитното поле на Земята, и твърдо <b>вътрешно ядро</b>.</p></div>
+          function lay(y, km, col, lbl, light) {
+            var h = km * scale,
+              t = "";
+            if (h > 15) t = '<text x="' + (x0 + w / 2) + '" y="' + (y + h / 2 + 4) + '" class="sl sm" text-anchor="middle" fill="' + (light ? "#fff" : "#5F2E0C") + '">' + lbl + '</text>';
+            return '<rect x="' + x0 + '" y="' + y + '" width="' + w + '" height="' + h + '" fill="' + col + '"/>' + t;
+          }
 
-      <div class="defbox"><span class="def-term">Мантия</span>
-      <p>Най-голямата по обем част — дебелина около 2900 km, съставлява 84% от обема и 2/3 от масата на Земята. Дели се на горна и долна мантия (границата е на около 660 km). На контакта с ядрото температурата надхвърля 4000°C, но огромното налягане задържа веществото в твърдо състояние.</p></div>
+          function up() {
+            var T = +r.value,
+              s = "",
+              y = surfaceY;
+            if (type === "oc") {
+              s += '<rect x="' + x0 + '" y="' + (surfaceY - 20) + '" width="' + w + '" height="20" fill="#9AD0E8"/><text x="' + (x0 + w / 2) + '" y="' + (surfaceY - 7) + '" class="sl sm" text-anchor="middle" fill="#2B6FA8">океан</text>';
+              var sed = 0.8;
+              s += lay(y, sed, "#D6BD9A", "седименти", false);
+              y += sed * scale;
+              s += lay(y, T - sed, "#4A2C16", "базалт", true);
+            } else {
+              var sd = 2,
+                gr = (T - sd) * 0.5,
+                ba = (T - sd) * 0.5;
+              s += lay(y, sd, "#D6BD9A", "седименти", false);
+              y += sd * scale;
+              s += lay(y, gr, "#C99A6A", "гранитен слой", false);
+              y += gr * scale;
+              s += lay(y, ba, "#4A2C16", "базалтов слой", true);
+            }
+            box.innerHTML = s;
+            var by = surfaceY + T * scale;
+            brace.setAttribute("d", "M" + (x0 + w + 10) + " " + surfaceY + " l8 0 m-8 " + (by - surfaceY).toFixed(0) + " l8 0 M" + (x0 + w + 18) + " " + surfaceY + " L" + (x0 + w + 18) + " " + by);
+            total.setAttribute("y", (surfaceY + by) / 2 + 4);
+            total.textContent = T + " km";
+            v.textContent = T + " km";
+            live.innerHTML = type === "oc" ?
+              "<b>Океанска кора:</b> само " + T + " km — тънка и еднообразна, изградена от тежък базалт с тънка седиментна покривка. Затова при затваряне тя се подпъхва под по-леката континентална." :
+              "<b>Континентална кора:</b> цели " + T + " km — много по-дебела и трислойна: базалтов слой, над него по-лек гранитен и най-отгоре седиментен.";
+          }
 
-      <div class="defbox"><span class="def-term">Астеносфера</span>
-      <p>Вътрешната, полуразтопена и пластична част на горната мантия. Горната ѝ граница е на 80–200 km дълбочина, където температурата достига около 1300°C. Именно върху астеносферата „плуват“ и се местят литосферните плочи.</p></div>
-    </div>
+          function setType(t) {
+            type = t;
+            var rg = ranges[t];
+            r.min = rg[0];
+            r.max = rg[1];
+            r.value = rg[2];
+            [].forEach.call($("crust-type").children, function(c) {
+              c.classList.toggle("on", c.getAttribute("data-t") === t)
+            });
+            up();
+          }
+          r.addEventListener("input", up);
+          $("crust-type").addEventListener("click", function(e) {
+            var b = e.target.closest("button");
+            if (b) setType(b.getAttribute("data-t"))
+          });
+          r._reset = function() {
+            setType("oc")
+          };
+          setType("oc");
+        })();
 
-    <div class="sec" id="kora">
-      <p class="sec-eyebrow"><span class="sn">2</span> Земна кора</p>
-      <h3>Най-тънката, но най-позната обвивка</h3>
-      <p>Земната кора е най-външният и най-тънък слой и заема по-малко от 1% от обема на Земята. Различават се два типа според състава и дебелината.</p>
-      <figure class="fig">
-<svg viewBox="0 0 760 320" role="img" aria-label="Сравнение между океанска и континентална земна кора">
-  <defs>
-    <linearGradient id="basalt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6E4326"/><stop offset="1" stop-color="#4A2C16"/></linearGradient>
-    <linearGradient id="granite" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C99A6A"/><stop offset="1" stop-color="#A8743F"/></linearGradient>
-    <linearGradient id="sed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8D6BE"/><stop offset="1" stop-color="#D6BD9A"/></linearGradient>
-    <linearGradient id="mant" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E2592A"/><stop offset="1" stop-color="#F0A341"/></linearGradient>
-  </defs>
-  <rect x="0" y="232" width="760" height="88" fill="url(#mant)"/>
-  <text class="dlbl wt" x="20" y="295" font-size="14">ГОРНА МАНТИЯ (астеносфера)</text>
-  <!-- океанска -->
-  <rect x="40" y="150" width="300" height="34" fill="url(#basalt)"/>
-  <rect x="40" y="138" width="300" height="12" fill="url(#sed)"/>
-  <rect x="40" y="100" width="300" height="38" fill="#9AD0E8"/>
-  <text class="dlbl" x="190" y="86" text-anchor="middle" font-weight="600" fill="#2B6FA8">ОКЕАНСКА · 5–8 km</text>
-  <text class="dlbl sm" x="350" y="122" fill="#2B6FA8">океан</text>
-  <text class="dlbl sm wt" x="350" y="171" fill="#fff">базалт</text>
-  <text class="dlbl sm" x="350" y="147" fill="#7E3F14">седименти</text>
-  <!-- континентална -->
-  <rect x="430" y="150" width="300" height="34" fill="url(#basalt)"/>
-  <rect x="430" y="92" width="300" height="58" fill="url(#granite)"/>
-  <rect x="430" y="78" width="300" height="14" fill="url(#sed)"/>
-  <path d="M430 78 q40 -26 80 0 t80 0 t80 0 t60 0 v0 h-300z" fill="url(#sed)"/>
-  <text class="dlbl" x="580" y="64" text-anchor="middle" font-weight="600" fill="#7E3F14">КОНТИНЕНТАЛНА · 30–50 km</text>
-  <text class="dlbl sm" x="595" y="124" fill="#5F2E0C">гранитен слой</text>
-  <text class="dlbl sm wt" x="595" y="171" fill="#fff">базалтов слой</text>
-  <line x1="385" y1="60" x2="385" y2="240" stroke="#C7D4D6" stroke-width="1.5" stroke-dasharray="5 6"/>
-</svg>
-<figcaption>Двата типа земна кора · океанската е тънка и тежка, континенталната — дебела и трислойна</figcaption>
-</figure>
-      <div class="defbox"><span class="def-term">Океански тип земна кора</span>
-      <p>По-тънък (5–8 km) и еднообразен по състав. Изграден е главно от плътни и тежки скали като базалтите, върху които лежи тънка седиментна покривка.</p></div>
-      <div class="defbox"><span class="def-term">Континентален тип земна кора</span>
-      <p>По-дебел (30–50 km) и с по-сложен, трислоен строеж: базалтов слой, над него гранитен слой с по-леки скали и най-отгоре — седиментен слой, който не е разпространен навсякъде.</p></div>
-    </div>
+        (function bound() {
+          var r = $("bound-range");
+          if (!r) return;
+          var v = $("bound-val"),
+            live = $("bound-live"),
+            type = "div";
+          var groups = {
+            div: $("b-div"),
+            conv: $("b-conv"),
+            trans: $("b-trans")
+          };
+          var aste = $("b-asteno"),
+            asteL = $("b-asteno-lbl");
+          var bdl = $("bd-l"),
+            bdr = $("bd-r"),
+            bdm = $("bd-magma");
+          var ocean = $("bc-ocean"),
+            volc = $("bc-volc");
+          var btl = $("bt-l"),
+            btr = $("bt-r");
 
-    <div class="sec" id="litosfera">
-      <p class="sec-eyebrow"><span class="sn">3</span> Литосфера</p>
-      <h3>Твърдата черупка на планетата</h3>
-      <p>Литосферата обхваща най-външната твърда част от горната мантия и цялата земна кора. Това, което обединява двете части, е състоянието на веществото — и в двете то е твърдо. Различават се само по скалния си състав.</p>
-    </div>
+          function up() {
+            var t = +r.value,
+              f = t / 100;
+            if (type === "div") {
+              var sh = f * 72;
+              bdl.setAttribute("transform", "translate(" + (-sh) + ",0)");
+              bdr.setAttribute("transform", "translate(" + sh + ",0)");
+              var half = 8 + sh;
+              bdm.setAttribute("points", (380 - half) + ",196 " + (380 + half) + ",196 " + (380 + half - 10) + ",148 " + (380 - half + 10) + ",148");
+              live.innerHTML = t < 3 ? "<b>Граница на отваряне.</b> Раздалечи плочите: между тях се отваря рифт." : "<b>Отваряне:</b> плочите се раздалечават, от рифта изтича базалтова магма и застива като <b>нова земна кора</b> (срединни океански хребети).";
+            } else if (type === "conv") {
+              ocean.setAttribute("transform", "rotate(" + (f * 30) + " 402 153) translate(" + (-f * 130) + ",0)");
+              volc.setAttribute("opacity", Math.max(0, (f - 0.25) / 0.75).toFixed(2));
+              volc.setAttribute("transform", "translate(" + (f * 10) + ",0)");
+              live.innerHTML = t < 3 ? "<b>Граница на затваряне.</b> Бутни океанската плоча към континента." : "<b>Затваряне:</b> по-тежката океанска плоча се <b>подпъхва</b> под континенталната, при контакта се образува дълбоководна <b>падина</b>, а магмата подхранва <b>вулкани</b> и планини.";
+            } else {
+              var sh2 = f * 42;
+              btl.setAttribute("transform", "translate(0," + (-sh2) + ")");
+              btr.setAttribute("transform", "translate(0," + sh2 + ")");
+              live.innerHTML = t < 3 ? "<b>Граница на отместване.</b> Плъзни плочите в противоположни посоки." : "<b>Отместване:</b> плочите се плъзгат <b>хоризонтално</b> една спрямо друга (виж как реката се измества покрай разлома) — както при разлома Сан Андреас.";
+            }
+            v.textContent = t + "%";
+          }
 
-    <div class="sec" id="tektonika">
-      <p class="sec-eyebrow"><span class="sn">4</span> Тектоника на плочите</p>
-      <h3>Земята като подвижен пъзел</h3>
-      <p>Тектониката на плочите е теория, според която литосферата не е цялостна обвивка, а <span class="term">пъзел</span> от няколко по-малки части — <span class="term">литосферни плочи</span>. Те не стоят на едно място, а се плъзгат много бавно върху пластичната астеносфера и са в постоянен контакт помежду си. Различават се три типа граници на взаимодействие.</p>
-      <figure class="fig wide-fig">
-<svg viewBox="0 0 760 250" role="img" aria-label="Трите типа граници между литосферните плочи">
-  <defs>
-    <linearGradient id="ast2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E2592A"/><stop offset="1" stop-color="#F4B65A"/></linearGradient>
-  </defs>
-  <rect x="0" y="150" width="760" height="100" fill="url(#ast2)"/>
-  <!-- 1 отваряне -->
-  <g>
-    <rect x="20" y="120" width="95" height="30" fill="#6E4326"/>
-    <rect x="135" y="120" width="95" height="30" fill="#6E4326"/>
-    <path d="M115 120 L125 150 L115 175 L100 150 Z" fill="#E2592A"/>
-    <path d="M125 120 L135 150 L125 175 L140 150 Z" fill="#E2592A"/>
-    <path d="M120 118 l-7 -16 M120 118 l7 -16" stroke="#fff" stroke-width="2"/>
-    <text x="62" y="112" class="dlbl sm" text-anchor="middle">←</text>
-    <text x="195" y="112" class="dlbl sm" text-anchor="middle">→</text>
-    <text x="125" y="205" class="dlbl" text-anchor="middle" font-weight="600" fill="#7E3F14">Отваряне</text>
-    <text x="125" y="225" class="dlbl sm" text-anchor="middle" fill="#54707A">рифт · СОХ · нова кора</text>
-  </g>
-  <!-- 2 затваряне -->
-  <g>
-    <rect x="300" y="120" width="80" height="22" fill="#6E4326"/>
-    <path d="M380 120 q40 -4 90 -2 l0 22 q-40 4 -90 2 z" fill="url(#granite)"/>
-    <path d="M300 142 L355 200 L325 205 L290 150 Z" fill="#6E4326" opacity=".85"/>
-    <text x="345" y="112" class="dlbl sm" text-anchor="middle">→</text>
-    <text x="430" y="112" class="dlbl sm" text-anchor="middle">←</text>
-    <path d="M420 118 l0 -14 m-4 5 l4 -5 l4 5" stroke="#7E3F14" stroke-width="2" fill="none"/>
-    <text x="385" y="205" class="dlbl" text-anchor="middle" font-weight="600" fill="#7E3F14">Затваряне</text>
-    <text x="385" y="225" class="dlbl sm" text-anchor="middle" fill="#54707A">подпъхване · падина · планини</text>
-  </g>
-  <!-- 3 отместване -->
-  <g>
-    <rect x="560" y="120" width="80" height="30" fill="#6E4326"/>
-    <rect x="660" y="120" width="80" height="30" fill="#7E3F14"/>
-    <line x1="650" y1="116" x2="650" y2="154" stroke="#13262E" stroke-width="2.5"/>
-    <text x="600" y="112" class="dlbl sm" text-anchor="middle">↑</text>
-    <text x="700" y="112" class="dlbl sm" text-anchor="middle">↓</text>
-    <text x="650" y="205" class="dlbl" text-anchor="middle" font-weight="600" fill="#7E3F14">Отместване</text>
-    <text x="650" y="225" class="dlbl sm" text-anchor="middle" fill="#54707A">хоризонтално · Сан Андреас</text>
-  </g>
-</svg>
-<figcaption>Трите типа граници между литосферните плочи</figcaption>
-</figure>
-      <div class="defbox"><span class="def-term">Граници на отваряне</span>
-      <p>Тук се ражда най-новата земна кора. По дължина на продълговат рифт изтича базалтова лава; след като се втвърди, издигащата се магма я избутва встрани и отваря рифта. Това е силата, която движи плочите. Рифтовете изграждат срединните океански хребети (СОХ) — глобална система с дължина близо 80 000 km. Над океана СОХ образува острови, например Исландия.</p></div>
+          function setType(t) {
+            type = t;
+            for (var k in groups) groups[k].style.display = (k === t ? "" : "none");
+            var mapView = (t === "trans");
+            aste.style.display = mapView ? "none" : "";
+            asteL.style.display = mapView ? "none" : "";
+            [].forEach.call($("bound-type").children, function(c) {
+              c.classList.toggle("on", c.getAttribute("data-t") === t)
+            });
+            r.value = 0;
+            up();
+          }
+          r.addEventListener("input", up);
+          $("bound-type").addEventListener("click", function(e) {
+            var b = e.target.closest("button");
+            if (b) setType(b.getAttribute("data-t"))
+          });
+          r._reset = function() {
+            setType("div")
+          };
+          setType("div");
+        })();
 
-      <div class="defbox"><span class="def-term">Граници на затваряне</span>
-      <p>Старата кора се поглъща и разтопява чрез подпъхване на едната плоча под другата. По-тежката океанска кора потъва под по-леката континентална, разтопява се и дава магма, от която се образуват андезити. Успоредно възникват дълбоководни океански падини, а удебелената континентална плоча образува планински вериги. Две океански плочи дават островни дъги с дълбока океанска падина (Марианските острови и Марианската падина). Две континентални плочи се сблъскват и изграждат високи планини — например Хималаите, където Индийската плоча се сблъсква с Евроазиатската и кората е по-дебела от 70 km.</p></div>
+        [].forEach.call(document.querySelectorAll(".sim-reset"), function(b) {
+          b.addEventListener("click", function() {
+            var k = b.getAttribute("data-r");
+            var el = ({
+              crust: "crust-range",
+              bound: "bound-range"
+            })[k];
+            var t = document.getElementById(el);
+            if (t && t._reset) t._reset();
+          });
+        });
+      })();
+    </script>
 
-      <div class="defbox"><span class="def-term">Граници на отместване</span>
-      <p>Изключително дълбоки пукнатини в литосферата, по които плочите се преместват хоризонтално една спрямо друга. Типичен пример е разломът Сан Андреас. По всички граници на затваряне и отместване протича активна земетръсна и вулканична дейност.</p></div>
-    </div>
+  </body>
 
-    <div class="sec" id="skali">
-      <p class="sec-eyebrow"><span class="sn">5</span> Видове скали</p>
-      <h3>Каменната азбука на земната кора</h3>
-      <ul class="deflist">
-        <li><b>Магмени скали</b><p>Образуват се при изстиване на магмата. <b>Интрузивните</b> застиват бавно вътре в кората и са от едри кристали — най-разпространена е гранитът (твърд, но с по-малка плътност). <b>Ефузивните</b> застиват бързо на повърхността и са от микроскопични кристали — такива са базалтът (тъмен, в рифтовите зони) и андезитът (изгражда островните дъги).</p></li>
-        <li><b>Седиментни (утаечни) скали</b><p>Образуват се при отлагане във водни басейни или върху сушата на късове скали, измрели организми и химични утайки, пренесени от водата, вятъра, ледниците или гравитацията. Подреждат се на хоризонтални слоеве и често съдържат вкаменелости. Примери: варовик (от черупки и скелети), пясъчник, конгломерат, льос.</p></li>
-        <li><b>Метаморфни скали</b><p>Получават се при преобразуване на магмени или седиментни скали дълбоко в кората под въздействие на висока температура и налягане. Минералите прекристализират, без да се стига до разтопяване. Примери: гнайс и шист; мраморът се образува при метаморфоза на варовик.</p></li>
-      </ul>
-    </div>
-
-    <div class="tasks">
-      <h3>Въпроси и задачи</h3>
-      <ol>
-        <li>Направете схема на вътрешния строеж на Земята. Сравнете двата типа земна кора.</li>
-        <li>Характеризирайте скалния състав на земната кора.</li>
-        <li>Обяснете тектониката на плочите.</li>
-        <li>Потърсете в интернет информация за рифта Силфра на остров Исландия.</li>
-      </ol>
-    </div>
-
-    <nav class="lnav" aria-label="Между уроците">
-      <a class="prev disabled"><span class="dir">← Предходен</span><span class="ttl">—</span></a>
-      <a class="next" href="urok-22.html"><span class="dir">Следващ →</span><span class="ttl">22 · Ендогенни релефообразуващи процеси</span></a>
-    </nav>
-
-    <a class="back" href="../litosfera.html">← Обратно към раздел Литосфера</a>
-  </article>
-</section>
-</main>
-
-<footer class="footer">
-  <div class="ticks" aria-hidden="true"></div>
-  <div class="wrap footer-grid">
-    <div>
-      <p class="fbrand">ГеоСфера</p>
-      <p class="fnote">Учебен атлас по география и икономика · 8. клас</p>
-    </div>
-    <div>
-      <div class="scalebar" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-      <p class="fnote mono">лист K-35 · България · © 2026</p>
-    </div>
-  </div>
-</footer>
-
-</body>
 </html>
+
