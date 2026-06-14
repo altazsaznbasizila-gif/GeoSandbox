@@ -1,216 +1,758 @@
 <!doctype html>
 <html lang="bg">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Урок 24–25 · Екзогенни релефообразуващи процеси · ГеоСфера</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Sofia+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles.css">
-</head>
-<body data-view="litosfera">
 
-<header class="topbar">
-  <div class="wrap topbar-inner">
-    <a class="brand" href="../index.html">
-      <svg viewBox="0 0 32 32" fill="none" stroke-linecap="round" aria-hidden="true">
-        <circle cx="16" cy="16" r="14" stroke="#13262E" stroke-width="1.6"/>
-        <path d="M6 11.5a12.4 12.4 0 0 1 20 0" stroke="#3E8FD0" stroke-width="3"/>
-        <path d="M4.6 17h22.8" stroke="#0D7387" stroke-width="3"/>
-        <path d="M7.5 23.5a12.4 12.4 0 0 0 17 0" stroke="#A8551E" stroke-width="3"/>
-      </svg>
-      ГеоСфера
-    </a>
-    <nav class="nav" aria-label="Основна навигация">
-      <a href="../index.html">Начало</a>
-      <a href="../atmosfera.html">Атмосфера</a>
-      <a href="../hidrosfera.html">Хидросфера</a>
-      <a href="../litosfera.html" class="on" aria-current="page">Литосфера</a>
-    </nav>
-  </div>
-  <div class="ticks" aria-hidden="true"></div>
-</header>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Урок 24–25 · Екзогенни релефообразуващи процеси · ГеоСфера</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Sofia+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+      .article.wrap {
+        max-width: 1040px
+      }
 
-<main>
+      .sim {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 2.4vh 24px 2.8vh;
+        margin: 3vh 0;
+        box-shadow: 0 8px 26px rgba(19, 38, 46, .07)
+      }
 
-<section class="page">
-  <div class="lesson-hero">
-    <div class="wrap lh-inner">
-      <p class="lh-tag"><span class="num">Урок 24–25</span> Литосфера</p>
-      <h1 class="lh-title">Екзогенни релефообразуващи процеси</h1>
-      <div class="lh-questions">
-        <span class="qlbl">Водещи въпроси</span>
-        <p>Кои са екзогенните процеси, какви форми на релефа образуват и къде са разпространени? Една и съща ли е причината за най-високия водопад в света — Анхел, и за най-високия в България — Райското пръскало? Кои форми доказват, че в Рила и Пирин е имало ледници?</p>
+      .sim-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 1.6vh;
+        flex-wrap: wrap
+      }
+
+      .sim-tag {
+        font-family: var(--mono);
+        font-size: clamp(74%, .85vw, 82%);
+        text-transform: uppercase;
+        letter-spacing: .14em;
+        color: var(--accent-deep);
+        background: var(--accent-soft);
+        padding: .6vh 14px;
+        border-radius: 999px
+      }
+
+      .sim-reset {
+        font-family: var(--mono);
+        font-size: clamp(74%, .85vw, 82%);
+        color: var(--muted);
+        background: none;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: .6vh 14px;
+        cursor: pointer;
+        transition: .2s
+      }
+
+      .sim-reset:hover {
+        border-color: var(--accent);
+        color: var(--accent-deep)
+      }
+
+      .sim-svg {
+        width: 100%;
+        height: auto;
+        display: block;
+        background: var(--paper);
+        border-radius: 12px
+      }
+
+      .sim-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px 26px;
+        align-items: end;
+        margin-top: 2vh
+      }
+
+      .sim-field {
+        flex: 1 1 240px;
+        min-width: 210px
+      }
+
+      .sim-field label {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        font-family: var(--mono);
+        font-size: clamp(76%, .86vw, 84%);
+        color: var(--ink);
+        margin-bottom: .7vh
+      }
+
+      .sim-field label b {
+        color: var(--accent-deep)
+      }
+
+      .sim-range {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 6px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+        outline: none;
+        margin: 0
+      }
+
+      .sim-range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--accent-deep);
+        cursor: pointer;
+        border: 3px solid #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, .25)
+      }
+
+      .sim-range::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--accent-deep);
+        cursor: pointer;
+        border: 3px solid #fff
+      }
+
+      .sim-toggle {
+        display: inline-flex;
+        border: 1px solid var(--accent);
+        border-radius: 999px;
+        overflow: hidden;
+        flex-wrap: wrap
+      }
+
+      .sim-toggle button {
+        font-family: var(--mono);
+        font-size: clamp(76%, .88vw, 86%);
+        padding: 1vh 18px;
+        background: #fff;
+        border: none;
+        cursor: pointer;
+        color: var(--accent-deep);
+        transition: .2s
+      }
+
+      .sim-toggle button.on {
+        background: var(--accent);
+        color: #fff
+      }
+
+      .sim-live {
+        margin-top: 1.8vh;
+        font-size: clamp(96%, 1.08vw, 106%);
+        line-height: 1.6;
+        color: var(--ink);
+        background: var(--accent-soft);
+        border-radius: 10px;
+        padding: 1.6vh 18px
+      }
+
+      .sim-live b {
+        color: var(--accent-deep)
+      }
+
+      .sl {
+        font-family: var(--mono);
+        font-size: 13px;
+        fill: var(--ink)
+      }
+
+      .sl.sm {
+        font-size: 11px
+      }
+
+      .sl.wt {
+        fill: #fff
+      }
+    </style>
+  </head>
+
+  <body data-view="litosfera">
+
+    <header class="topbar">
+      <div class="wrap topbar-inner">
+        <a class="brand" href="../index.html">
+          <svg viewBox="0 0 32 32" fill="none" stroke-linecap="round" aria-hidden="true">
+            <circle cx="16" cy="16" r="14" stroke="#13262E" stroke-width="1.6" />
+            <path d="M6 11.5a12.4 12.4 0 0 1 20 0" stroke="#3E8FD0" stroke-width="3" />
+            <path d="M4.6 17h22.8" stroke="#0D7387" stroke-width="3" />
+            <path d="M7.5 23.5a12.4 12.4 0 0 0 17 0" stroke="#A8551E" stroke-width="3" />
+          </svg>
+          ГеоСфера
+        </a>
+        <nav class="nav" aria-label="Основна навигация">
+          <a href="../index.html">Начало</a>
+          <a href="../atmosfera.html">Атмосфера</a>
+          <a href="../hidrosfera.html">Хидросфера</a>
+          <a href="../litosfera.html" class="on" aria-current="page">Литосфера</a>
+        </nav>
       </div>
-      <div class="toc">
-        <a href="#sashtnost">Същност</a>
-        <a href="#izvetryane">Изветряне</a>
-        <a href="#denudacia">Денудация</a>
-        <a href="#voda">Течаща вода</a>
-        <a href="#lednici">Ледници</a>
-        <a href="#vyatar">Вятър</a>
+      <div class="ticks" aria-hidden="true"></div>
+    </header>
+
+    <main>
+
+      <section class="page">
+        <div class="lesson-hero">
+          <div class="wrap lh-inner">
+            <p class="lh-tag"><span class="num">Урок 24–25</span> Литосфера</p>
+            <h1 class="lh-title">Екзогенни релефообразуващи процеси</h1>
+            <div class="lh-questions">
+              <span class="qlbl">Водещи въпроси</span>
+              <p>Кои са екзогенните процеси, какви форми на релефа образуват и къде са разпространени? Една и съща ли е
+                причината за най-високия водопад в света — Анхел, и за най-високия в България — Райското пръскало? Кои
+                форми доказват, че в Рила и Пирин е имало ледници?</p>
+            </div>
+            <div class="toc">
+              <a href="#sashtnost">Същност</a>
+              <a href="#izvetryane">Изветряне</a>
+              <a href="#denudacia">Денудация</a>
+              <a href="#voda">Течаща вода</a>
+              <a href="#lednici">Ледници</a>
+              <a href="#vyatar">Вятър</a>
+            </div>
+          </div>
+        </div>
+
+        <article class="article wrap">
+
+          <div class="sec" id="sashtnost">
+            <p class="sec-eyebrow"><span class="sn">1</span> Същност</p>
+            <h3>Силите, които идват отвън</h3>
+            <div class="defbox"><span class="def-term">Екзогенни (външни) процеси</span>
+              <p>Релефообразуващи процеси, породени от слънчевата енергия и гравитацията. Външните сили — слънчевото
+                греене, течащата вода, вятърът, морската вода и ледниците — преобразуват формите, създадени от ендогенните
+                процеси. Те протичат бавно и непрекъснато: рушат скалите, пренасят разрушения материал и накрая го
+                акумулират (наслагват), при което се образуват нови форми на релефа.</p>
+            </div>
+          </div>
+
+          <div class="sec" id="izvetryane">
+            <p class="sec-eyebrow"><span class="sn">2</span> Изветряне</p>
+            <h3>Как скалите се разпадат на място</h3>
+            <div class="defbox"><span class="def-term">Изветряне</span>
+              <p>Екзогенен процес, свързан с физическото разпадане и химическата промяна на скалите под влияние на
+                температурните колебания, водата и организмите. Дели се на физично и химично.</p>
+            </div>
+            <div class="defbox"><span class="def-term">Физично изветряне</span>
+              <p>Скалите се раздробяват, без да се изменя минералният им състав. Типично е за сухия климат с големи
+                денонощни температурни разлики. Особен случай е мразовото изветряне във високите планини и полярните
+                области: водата в пукнатините замръзва, ледът увеличава обема си и разширява пукнатините, а при следващото
+                размразяване процесът продължава по-надълбоко.</p>
+            </div>
+
+            <div class="sim" id="sim-frost">
+              <div class="sim-bar"><span class="sim-tag">Симулация · мразово изветряне</span>
+                <button class="sim-reset" data-r="frost">↺ Нулирай</button>
+              </div>
+              <svg class="sim-svg" id="frost-svg" viewBox="0 0 760 230" role="img" aria-label="Симулация на мразово изветряне">
+                <rect x="0" y="0" width="760" height="230" fill="#EAF2F6" />
+                <rect id="frost-snow" x="0" y="0" width="760" height="230" fill="#fff" opacity="0" />
+                <polygon id="frost-left" points="150,40 372,40 366,196 150,196" fill="#9AA0A6" />
+                <g id="frost-right">
+                  <polygon points="388,40 610,40 610,196 394,196" fill="#9AA0A6" />
+                </g>
+                <polygon id="frost-crack" points="372,40 388,40 394,196 366,196" fill="#5BA3D0" stroke="none" />
+                <g id="frost-chip" opacity="0">
+                  <polygon points="392,42 446,42 420,86" fill="#8A8F95" />
+                </g>
+                <g stroke="#7E8489" stroke-width="1" opacity=".5">
+                  <line x1="150" y1="96" x2="360" y2="96" />
+                  <line x1="398" y1="120" x2="610" y2="120" />
+                </g>
+                <text id="frost-state" x="380" y="222" class="sl" text-anchor="middle" font-weight="600" fill="#0A5A6B">вода в пукнатината</text>
+              </svg>
+              <div class="sim-controls">
+                <div class="sim-field">
+                  <label>Температура <b id="frost-val">+8°C</b></label>
+                  <input class="sim-range" id="frost-range" type="range" min="0" max="100" value="0">
+                </div>
+              </div>
+              <p class="sim-live" id="frost-live">Премести надясно към минусовите температури: водата в пукнатината
+                замръзва, ледът се разширява и руши скалата.</p>
+            </div>
+
+            <div class="defbox"><span class="def-term">Химично изветряне</span>
+              <p>Променя минералния състав на скалите. Първостепенна роля играе водата с разтворените в нея киселини и
+                соли. Протича най-бързо във влажен и топъл климат. Растенията също рушат скалите — механично с корените си
+                и химично с отделяните киселини.</p>
+            </div>
+          </div>
+
+          <div class="sec" id="denudacia">
+            <p class="sec-eyebrow"><span class="sn">3</span> Денудация</p>
+            <h3>Когато склонът поддаде</h3>
+            <div class="defbox"><span class="def-term">Денудация</span>
+              <p>Екзогенен процес, при който изветрелите материали се отнасят и скалите се оголват под действието на
+                гравитацията — сама или в съчетание с течаща вода, ледници или вятър.</p>
+            </div>
+            <ul class="deflist">
+              <li><b>Срутище</b>
+                <p>Форма на релефа, образувана при внезапно откъсване на голям обем скална маса от стръмен или отвесен
+                  склон и натрупването ѝ в основата му.</p>
+              </li>
+              <li><b>Свлачище</b>
+                <p>Придвижване на скална маса по хлъзгава повърхнина — най-често глинест пласт, успореден на склона.
+                  Срутищата и свлачищата създават рискове за пътища и сгради.</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sec" id="voda">
+            <p class="sec-eyebrow"><span class="sn">4</span> Релефообразуваща дейност на течащата вода</p>
+            <h3>Реката като скулптор</h3>
+            <div class="defbox"><span class="def-term">Ерозия</span>
+              <p>Рушителната дейност на течащата вода. Зависи от водното количество и най-вече от скоростта на водата —
+                затова при голям наклон на речната долина ерозията е значително по-активна.</p>
+            </div>
+            <div class="defbox"><span class="def-term">Акумулация · алувий</span>
+              <p>При намаляване на наклона носените материали се отлагат на дъното. Това е акумулацията, а образуваните
+                наслаги се наричат алувий.</p>
+            </div>
+
+            <div class="sim" id="sim-mean">
+              <div class="sim-bar"><span class="sim-tag">Симулация · меандри</span>
+                <button class="sim-reset" data-r="mean">↺ Нулирай</button>
+              </div>
+              <svg class="sim-svg" id="mean-svg" viewBox="0 0 760 240" role="img" aria-label="Симулация на меандриране">
+                <rect x="0" y="0" width="760" height="240" fill="#9BC97F" />
+                <polygon id="mean-river" points="" fill="#5BA3D0" />
+                <polyline id="mean-thread" points="" fill="none" stroke="#EAF6FF" stroke-width="2" stroke-dasharray="6 8" />
+                <g id="mean-bars" fill="#D6BD9A"></g>
+                <g id="mean-ero" stroke="#E2592A" stroke-width="3" fill="none"></g>
+                <text x="380" y="228" class="sl" text-anchor="middle" font-weight="600" fill="#0A5A6B">Меандри</text>
+              </svg>
+              <div class="sim-controls">
+                <div class="sim-field">
+                  <label>Меандриране (време) <b id="mean-val">0%</b></label>
+                  <input class="sim-range" id="mean-range" type="range" min="0" max="100" value="0">
+                </div>
+              </div>
+              <p class="sim-live" id="mean-live">Движи времето: реката лъкатуши все повече. Във външните завои
+                <b>ерозията</b> подкопава брега, а във вътрешните се отлага <b>алувий</b>.
+              </p>
+            </div>
+
+            <ul class="deflist">
+              <li><b>Меандри</b>
+                <p>Завои, които се образуват при малък наклон. Във външната част течението е бързо и ерозията подкопава
+                  брега, а във вътрешната водата отлага наносите.</p>
+              </li>
+              <li><b>Речна долина</b>
+                <p>Основна релефна форма от ерозията. Дълбочинната ерозия (в горното течение) я удълбочава, а страничната
+                  — разширява.</p>
+              </li>
+              <li><b>Водопади</b>
+                <p>Образуват се на места с по-устойчиви скали. Така са възникнали Анхел, Ниагарският водопад, Виктория и
+                  най-високият у нас — Райското пръскало.</p>
+              </li>
+              <li><b>Проломи</b>
+                <p>Дълбоко всечени долини със стръмни склонове, които прорязват планински вериги. Най-дългият български
+                  пролом е Искърският.</p>
+              </li>
+              <li><b>Алувиални низини и делти</b>
+                <p>В равнините реките натрупват алувий и образуват низини и острови; в устията се отлагат наноси и се
+                  образуват делти (Ганг–Брахмапутра, Мисисипи, Дунав).</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sec" id="lednici">
+            <p class="sec-eyebrow"><span class="sn">5</span> Релефообразуваща дейност на ледниците</p>
+            <h3>Ледът, който дълбае планините</h3>
+            <p>Във високите планини и полярните области падналият сняг не се топи, а се уплътнява в пластична ледена маса,
+              която под действие на гравитацията се движи надолу по склона и разрушава повърхността, по която преминава.
+            </p>
+            <div class="defbox"><span class="def-term">Екзарация</span>
+              <p>Рушителната дейност на ледниците. Основните форми, които създава, са циркусите и коритовидните долини.
+              </p>
+            </div>
+
+            <div class="sim" id="sim-glac">
+              <div class="sim-bar"><span class="sim-tag">Симулация · ледник и долина</span>
+                <button class="sim-reset" data-r="glac">↺ Нулирай</button>
+              </div>
+              <svg class="sim-svg" id="glac-svg" viewBox="0 0 760 260" role="img" aria-label="Симулация на ледниково издълбаване">
+                <rect x="0" y="0" width="760" height="260" fill="#EAF2F6" />
+                <g id="glac-walls"></g>
+                <polygon id="glac-ice" points="" fill="#B8DCEC" opacity="0" />
+                <path id="glac-river" d="" stroke="#5BA3D0" stroke-width="4" fill="none" />
+                <path id="glac-cirque" d="" fill="#8FD0DA" opacity="0" />
+                <text id="glac-l1" x="155" y="40" class="sl sm" text-anchor="middle" fill="#0A5A6B" opacity="0">циркус</text>
+                <text id="glac-l2" x="380" y="246" class="sl" text-anchor="middle" font-weight="600" fill="#5F2E0C">V-образна речна долина</text>
+              </svg>
+              <div class="sim-controls">
+                <div class="sim-field">
+                  <label>Ледник (издълбаване) <b id="glac-val">0%</b></label>
+                  <input class="sim-range" id="glac-range" type="range" min="0" max="100" value="0">
+                </div>
+              </div>
+              <p class="sim-live" id="glac-live">Пусни ледника надолу: чрез <b>екзарация</b> той преобразува тясната
+                V-образна речна долина в широка <b>U-образна коритовидна долина</b>, а отгоре оставя <b>циркус</b>.</p>
+            </div>
+
+            <ul class="deflist">
+              <li><b>Циркус</b>
+                <p>Креслоподобна вдлъбнатина, заградена от три страни със стръмни склонове, в която се събира и натрупва
+                  ледът. Старите циркуси в Рила и Пирин днес са заети от циркусни езера.</p>
+              </li>
+              <li><b>Коритовидна долина</b>
+                <p>Долина, преудълбана и разширена от ледника, с широко дъно и U-образен профил.</p>
+              </li>
+              <li><b>Фиорд</b>
+                <p>Коритовидна долина край морския бряг, наводнена след стопяването на ледника — тесен и дълбок залив,
+                  какъвто има по крайбрежието на Норвегия.</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="sec" id="vyatar">
+            <p class="sec-eyebrow"><span class="sn">6</span> Релефообразуваща дейност на вятъра и морето</p>
+            <h3>Вятърът и вълните оформят брега и пустинята</h3>
+            <div class="defbox"><span class="def-term">Еолични форми · еоличен процес</span>
+              <p>Формите, образувани от рушителната, транспортната и акумулативната дейност на вятъра, се наричат еолични,
+                а процесът — еоличен. Вятърът е водещ фактор в пустините: при скорост над 10 m/s носи песъчинки с размер
+                около 1 mm, които издълбават скалите и създават причудливи форми — еолични гъби и арки. Натрупаният пясък
+                образува дюни (например в пустинята Намиб).</p>
+            </div>
+
+            <div class="sim" id="sim-coast">
+              <div class="sim-bar"><span class="sim-tag">Симулация · брегова зона</span>
+                <button class="sim-reset" data-r="coast">↺ Нулирай</button>
+              </div>
+              <svg class="sim-svg" id="coast-svg" viewBox="0 0 760 230" role="img" aria-label="Симулация на морска абразия">
+                <rect x="0" y="0" width="760" height="230" fill="#EAF2F6" />
+                <rect x="0" y="150" width="760" height="80" fill="#5BA3D0" />
+                <polygon id="coast-plat" points="" fill="#D6BD9A" />
+                <polygon id="coast-land" points="" fill="#C99A6A" />
+                <polygon id="coast-land2" points="" fill="#9BC97F" />
+                <polygon id="coast-notch" points="" fill="#5BA3D0" />
+                <g id="coast-waves" stroke="#fff" stroke-width="2" fill="none" opacity=".8"></g>
+                <g stroke="#13262E" stroke-width="1.1">
+                  <line id="coast-lc" x1="0" y1="0" x2="0" y2="0" />
+                  <line id="coast-ln" x1="0" y1="0" x2="0" y2="0" />
+                  <line id="coast-lp" x1="0" y1="0" x2="0" y2="0" />
+                </g>
+                <text id="coast-tc" class="sl sm">клиф</text>
+                <text id="coast-tn" class="sl sm">прибойна ниша</text>
+                <text id="coast-tp" class="sl sm">плаж</text>
+              </svg>
+              <div class="sim-controls">
+                <div class="sim-field">
+                  <label>Действие на вълните (време) <b id="coast-val">0%</b></label>
+                  <input class="sim-range" id="coast-range" type="range" min="0" max="100" value="0">
+                </div>
+              </div>
+              <p class="sim-live" id="coast-live">Усили действието на вълните: прибоят издълбава <b>прибойна ниша</b> в
+                основата, <b>клифът</b> отстъпва навътре, а отдолу се разширява <b>плажът</b>.</p>
+            </div>
+
+            <p>Морската вода също преобразува сушата. В бреговата зона прибоят издълбава в скалите прибойна ниша, над
+              която се образува стръмен клиф, а отнесеният материал изгражда плажа.</p>
+          </div>
+
+          <nav class="lnav" aria-label="Между уроците">
+            <a class="prev" href="urok-23.html"><span class="dir">← Предходен</span><span class="ttl">23 · в
+                подготовка</span></a>
+            <a class="next disabled"><span class="dir">Следващ →</span><span class="ttl">—</span></a>
+          </nav>
+          <a class="back" href="../litosfera.html">← Обратно към раздел Литосфера</a>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="ticks" aria-hidden="true"></div>
+      <div class="wrap footer-grid">
+        <div>
+          <p class="fbrand">ГеоСфера</p>
+          <p class="fnote">Учебен атлас по география и икономика · 8. клас</p>
+        </div>
+        <div>
+          <div class="scalebar" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <p class="fnote mono">лист K-35 · България · © 2026</p>
+        </div>
       </div>
-    </div>
-  </div>
+    </footer>
 
-  <article class="article wrap">
+    <script>
+      (function() {
+        var $ = function(id) {
+          return document.getElementById(id)
+        };
 
-    <div class="sec" id="sashtnost">
-      <p class="sec-eyebrow"><span class="sn">1</span> Същност</p>
-      <h3>Силите, които идват отвън</h3>
-      <div class="defbox"><span class="def-term">Екзогенни (външни) процеси</span>
-      <p>Релефообразуващи процеси, породени от слънчевата енергия и гравитацията. Външните сили — слънчевото греене, течащата вода, вятърът, морската вода и ледниците — преобразуват формите, създадени от ендогенните процеси. Те протичат бавно и непрекъснато: рушат скалите, пренасят разрушения материал и накрая го акумулират (наслагват), при което се образуват нови форми на релефа.</p></div>
-    </div>
+        (function frost() {
+          var r = $("frost-range");
+          if (!r) return;
+          var right = $("frost-right"),
+            crack = $("frost-crack"),
+            chip = $("frost-chip"),
+            snow = $("frost-snow"),
+            st = $("frost-state"),
+            v = $("frost-val"),
+            live = $("frost-live");
 
-    <div class="sec" id="izvetryane">
-      <p class="sec-eyebrow"><span class="sn">2</span> Изветряне</p>
-      <h3>Как скалите се разпадат на място</h3>
-      <div class="defbox"><span class="def-term">Изветряне</span>
-      <p>Екзогенен процес, свързан с физическото разпадане и химическата промяна на скалите под влияние на температурните колебания, водата и организмите. Дели се на физично и химично.</p></div>
-      <div class="defbox"><span class="def-term">Физично изветряне</span>
-      <p>Скалите се раздробяват, без да се изменя минералният им състав. Типично е за сухия климат с големи денонощни температурни разлики. Особен случай е мразовото изветряне във високите планини и полярните области: водата в пукнатините замръзва, ледът увеличава обема си и разширява пукнатините, а при следващото размразяване процесът продължава по-надълбоко.</p></div>
-      <figure class="fig">
-<svg viewBox="0 0 760 220" role="img" aria-label="Мразово изветряне на скали">
-  <rect x="0" y="0" width="760" height="220" fill="#EDF2F2"/>
-  <g>
-    <rect x="60" y="40" width="180" height="150" fill="#9AA0A6"/>
-    <path d="M150 40 L150 190" stroke="#EDF2F2" stroke-width="3"/>
-    <rect x="305" y="40" width="180" height="150" fill="#9AA0A6"/>
-    <path d="M395 40 L395 190" stroke="#5BA3D0" stroke-width="9"/>
-    <rect x="550" y="40" width="80" height="150" fill="#9AA0A6"/>
-    <rect x="640" y="40" width="80" height="150" fill="#9AA0A6" transform="rotate(6 640 115)"/>
-  </g>
-  <text x="150" y="212" class="dlbl sm" text-anchor="middle">1 · вода в пукнатина</text>
-  <text x="395" y="212" class="dlbl sm" text-anchor="middle">2 · водата замръзва и разширява</text>
-  <text x="640" y="212" class="dlbl sm" text-anchor="middle">3 · скалата се разпада</text>
-  <g stroke="#13262E" stroke-width="2" fill="none">
-    <path d="M255 110 l30 0 m-8 -6 l8 6 l-8 6"/><path d="M500 110 l30 0 m-8 -6 l8 6 l-8 6"/>
-  </g>
-</svg>
-<figcaption>Мразово изветряне · замръзналата вода разширява пукнатините, докато скалата се разпадне</figcaption>
-</figure>
-      <div class="defbox"><span class="def-term">Химично изветряне</span>
-      <p>Променя минералния състав на скалите. Първостепенна роля играе водата с разтворените в нея киселини и соли. Протича най-бързо във влажен и топъл климат. Растенията също рушат скалите — механично с корените си и химично с отделяните киселини.</p></div>
-    </div>
+          function up() {
+            var f = +r.value,
+              tempC = 8 - (f / 100) * 18,
+              cold = Math.max(0, -tempC),
+              e = cold * 2.6;
+            right.setAttribute("transform", "translate(" + e + ",0)");
+            crack.setAttribute("points", "372,40 " + (388 + e) + ",40 " + (394 + e) + ",196 366,196");
+            var ice = tempC <= 0;
+            crack.setAttribute("fill", ice ? "#D6EEF8" : "#5BA3D0");
+            crack.setAttribute("stroke", ice ? "#9CCBDE" : "none");
+            crack.setAttribute("stroke-width", ice ? "2" : "0");
+            snow.setAttribute("opacity", (cold / 10 * 0.35).toFixed(2));
+            var chipped = tempC <= -6;
+            chip.setAttribute("opacity", chipped ? "1" : "0");
+            chip.setAttribute("transform", chipped ? "translate(" + (e + 18) + "," + ((cold - 6) * 6) + ") rotate(" + ((cold - 6) * 4) + " 420 64)" : "translate(" + e + ",0)");
+            v.textContent = (tempC > 0 ? "+" : "") + tempC.toFixed(0) + "°C";
+            if (tempC > 0) {
+              st.textContent = "вода в пукнатината";
+              st.setAttribute("fill", "#0A5A6B");
+              live.innerHTML = "При плюсова температура водата прониква като <b>течност</b> дълбоко в пукнатините на скалата.";
+            } else if (!chipped) {
+              st.textContent = "водата замръзва и разширява";
+              st.setAttribute("fill", "#2B6FA8");
+              live.innerHTML = "Водата <b>замръзва</b>! Ледът увеличава обема си с около 9% и <b>разширява</b> пукнатината.";
+            } else {
+              st.textContent = "скалата се разпада";
+              st.setAttribute("fill", "#7E3F14");
+              live.innerHTML = "След много цикли на замръзване и размразяване откъртени късове падат — скалата се <b>разпада</b> (мразово изветряне).";
+            }
+          }
+          r.addEventListener("input", up);
+          r._reset = function() {
+            r.value = 0;
+            up()
+          };
+          up();
+        })();
 
-    <div class="sec" id="denudacia">
-      <p class="sec-eyebrow"><span class="sn">3</span> Денудация</p>
-      <h3>Когато склонът поддаде</h3>
-      <div class="defbox"><span class="def-term">Денудация</span>
-      <p>Екзогенен процес, при който изветрелите материали се отнасят и скалите се оголват под действието на гравитацията — сама или в съчетание с течаща вода, ледници или вятър.</p></div>
-      <ul class="deflist">
-        <li><b>Срутище</b><p>Форма на релефа, образувана при внезапно откъсване на голям обем скална маса от стръмен или отвесен склон и натрупването ѝ в основата му.</p></li>
-        <li><b>Свлачище</b><p>Придвижване на скална маса по хлъзгава повърхнина — най-често глинест пласт, успореден на склона. Срутищата и свлачищата създават рискове за пътища и сгради.</p></li>
-      </ul>
-    </div>
+        (function mean() {
+          var r = $("mean-range");
+          if (!r) return;
+          var riv = $("mean-river"),
+            thr = $("mean-thread"),
+            bars = $("mean-bars"),
+            ero = $("mean-ero"),
+            v = $("mean-val"),
+            live = $("mean-live");
+          var midY = 118,
+            hw = 20,
+            k = 2 * Math.PI / 220,
+            x0 = -20,
+            x1 = 780,
+            n = 90;
 
-    <div class="sec" id="voda">
-      <p class="sec-eyebrow"><span class="sn">4</span> Релефообразуваща дейност на течащата вода</p>
-      <h3>Реката като скулптор</h3>
-      <div class="defbox"><span class="def-term">Ерозия</span>
-      <p>Рушителната дейност на течащата вода. Зависи от водното количество и най-вече от скоростта на водата — затова при голям наклон на речната долина ерозията е значително по-активна.</p></div>
-      <div class="defbox"><span class="def-term">Акумулация · алувий</span>
-      <p>При намаляване на наклона носените материали се отлагат на дъното. Това е акумулацията, а образуваните наслаги се наричат алувий.</p></div>
-      <figure class="fig">
-<svg viewBox="0 0 760 240" role="img" aria-label="Меандър на река">
-  <rect x="0" y="0" width="760" height="240" fill="#9BC97F"/>
-  <path d="M-20 60 Q200 60 240 120 T420 120 Q620 120 660 60 L780 60 L780 200 Q620 200 560 140 T360 140 Q160 140 120 200 L-20 200 Z" fill="#5BA3D0"/>
-  <path d="M-20 90 Q200 90 250 130 T410 130 Q600 130 650 90" fill="none" stroke="#EAF6FF" stroke-width="2" stroke-dasharray="6 8"/>
-  <g fill="#D6BD9A">
-    <path d="M200 150 q40 30 120 30 q-60 20 -120 10z"/>
-    <path d="M470 90 q-40 -30 -120 -30 q60 -20 120 -10z"/>
-  </g>
-  <g stroke="#E2592A" stroke-width="3" fill="none"><path d="M250 70 q-30 -22 -70 -10"/><path d="M520 170 q30 22 70 10"/></g>
-  <text x="180" y="56" class="dlbl sm" fill="#7E3F14">ерозия (бързо течение)</text>
-  <text x="430" y="200" class="dlbl sm" fill="#7E3F14">акумулация на алувий</text>
-  <text x="380" y="232" class="dlbl" text-anchor="middle" font-weight="600" fill="#0A5A6B">Меандър</text>
-</svg>
-<figcaption>Меандър · външният бряг се руши от ерозията, на вътрешния се отлага алувий</figcaption>
-</figure>
-      <ul class="deflist">
-        <li><b>Меандри</b><p>Завои, които се образуват при малък наклон. Във външната част течението е бързо и ерозията подкопава брега, а във вътрешната водата отлага наносите.</p></li>
-        <li><b>Речна долина</b><p>Основна релефна форма от ерозията. Дълбочинната ерозия (в горното течение) я удълбочава, а страничната — разширява.</p></li>
-        <li><b>Водопади</b><p>Образуват се на места с по-устойчиви скали. Така са възникнали Анхел, Ниагарският водопад, Виктория и най-високият у нас — Райското пръскало.</p></li>
-        <li><b>Проломи</b><p>Дълбоко всечени долини със стръмни склонове, които прорязват планински вериги. Най-дългият български пролом е Искърският.</p></li>
-        <li><b>Алувиални низини и делти</b><p>В равнините реките натрупват алувий и образуват низини и острови; в устията се отлагат наноси и се образуват делти (Ганг–Брахмапутра, Мисисипи, Дунав).</p></li>
-      </ul>
-    </div>
+          function cen(x, amp) {
+            return midY + amp * Math.sin(x * k)
+          }
 
-    <div class="sec" id="lednici">
-      <p class="sec-eyebrow"><span class="sn">5</span> Релефообразуваща дейност на ледниците</p>
-      <h3>Ледът, който дълбае планините</h3>
-      <p>Във високите планини и полярните области падналият сняг не се топи, а се уплътнява в пластична ледена маса, която под действие на гравитацията се движи надолу по склона и разрушава повърхността, по която преминава.</p>
-      <div class="defbox"><span class="def-term">Екзарация</span>
-      <p>Рушителната дейност на ледниците. Основните форми, които създава, са циркусите и коритовидните долини.</p></div>
-      <figure class="fig">
-<svg viewBox="0 0 760 260" role="img" aria-label="Циркус и коритовидна долина">
-  <path d="M0 60 L180 60 Q200 60 210 110 L260 240 L0 240 Z" fill="#8A8F95"/>
-  <path d="M760 60 L560 60 Q540 60 530 110 L470 240 L760 240 Z" fill="#8A8F95"/>
-  <path d="M210 110 Q380 70 530 110 L470 240 Q380 200 260 240 Z" fill="#B8DCEC"/>
-  <path d="M260 240 Q380 200 470 240" fill="none" stroke="#7FB8D4" stroke-width="3"/>
-  <ellipse cx="155" cy="78" rx="60" ry="22" fill="#8FD0DA"/>
-  <text x="155" y="50" class="dlbl sm" text-anchor="middle" fill="#0A5A6B">циркус (днес — езеро)</text>
-  <text x="380" y="180" class="dlbl" text-anchor="middle" font-weight="600" fill="#0A5A6B">U-образна</text>
-  <text x="380" y="200" class="dlbl sm" text-anchor="middle" fill="#0A5A6B">коритовидна долина</text>
-</svg>
-<figcaption>Ледникови форми · креслоподобният циркус и U-образната коритовидна долина</figcaption>
-</figure>
-      <ul class="deflist">
-        <li><b>Циркус</b><p>Креслоподобна вдлъбнатина, заградена от три страни със стръмни склонове, в която се събира и натрупва ледът. Старите циркуси в Рила и Пирин днес са заети от циркусни езера.</p></li>
-        <li><b>Коритовидна долина</b><p>Долина, преудълбана и разширена от ледника, с широко дъно и U-образен профил.</p></li>
-        <li><b>Фиорд</b><p>Коритовидна долина край морския бряг, наводнена след стопяването на ледника — тесен и дълбок залив, какъвто има по крайбрежието на Норвегия.</p></li>
-      </ul>
-    </div>
+          function up() {
+            var f = +r.value / 100,
+              amp = 10 + f * 56,
+              top = "",
+              bot = "",
+              th = "";
+            for (var i = 0; i <= n; i++) {
+              var x = x0 + (x1 - x0) * i / n,
+                c = cen(x, amp);
+              top += x.toFixed(1) + "," + (c - hw).toFixed(1) + " ";
+              th += x.toFixed(1) + "," + c.toFixed(1) + " ";
+            }
+            for (var j = n; j >= 0; j--) {
+              var x2 = x0 + (x1 - x0) * j / n,
+                c2 = cen(x2, amp);
+              bot += x2.toFixed(1) + "," + (c2 + hw).toFixed(1) + " ";
+            }
+            riv.setAttribute("points", top + bot);
+            thr.setAttribute("points", th);
+            var bh = "",
+              eh = "";
+            for (var m = 0; m < 6; m++) {
+              var xc = (Math.PI / 2 + m * Math.PI) / k;
+              if (xc < 40 || xc > 720) continue;
+              var crest = (m % 2 === 0),
+                c = cen(xc, amp);
+              if (crest) {
+                bh += '<ellipse cx="' + xc.toFixed(0) + '" cy="' + (c - hw - 3).toFixed(0) + '" rx="' + (20 + f * 22).toFixed(0) + '" ry="' + (7 + f * 6).toFixed(0) + '"/>';
+                eh += '<path d="M' + (xc - 28) + ' ' + (c + hw + 4) + ' q28 ' + (10 + f * 10) + ' 56 0"/>';
+              } else {
+                bh += '<ellipse cx="' + xc.toFixed(0) + '" cy="' + (c + hw + 3).toFixed(0) + '" rx="' + (20 + f * 22).toFixed(0) + '" ry="' + (7 + f * 6).toFixed(0) + '"/>';
+                eh += '<path d="M' + (xc - 28) + ' ' + (c - hw - 4) + ' q28 -' + (10 + f * 10) + ' 56 0"/>';
+              }
+            }
+            bars.innerHTML = bh;
+            ero.innerHTML = eh;
+            v.textContent = Math.round(f * 100) + "%";
+            live.innerHTML = f < 0.05 ? "Движи времето: реката лъкатуши все повече. Във външните завои <b>ерозията</b> подкопава брега, а във вътрешните се отлага <b>алувий</b>." :
+              "Колкото по-малък е наклонът, толкова по-силно реката <b>меандрира</b>: външните брегове се рушат от ерозията (червено), а на вътрешните расте <b>алувий</b> (пясъчно). Така коритото бавно се измества.";
+          }
+          r.addEventListener("input", up);
+          r._reset = function() {
+            r.value = 0;
+            up()
+          };
+          up();
+        })();
 
-    <div class="sec" id="vyatar">
-      <p class="sec-eyebrow"><span class="sn">6</span> Релефообразуваща дейност на вятъра и морето</p>
-      <h3>Вятърът и вълните оформят брега и пустинята</h3>
-      <div class="defbox"><span class="def-term">Еолични форми · еоличен процес</span>
-      <p>Формите, образувани от рушителната, транспортната и акумулативната дейност на вятъра, се наричат еолични, а процесът — еоличен. Вятърът е водещ фактор в пустините: при скорост над 10 m/s носи песъчинки с размер около 1 mm, които издълбават скалите и създават причудливи форми — еолични гъби и арки. Натрупаният пясък образува дюни (например в пустинята Намиб).</p></div>
-      <figure class="fig">
-<svg viewBox="0 0 760 220" role="img" aria-label="Брегова зона">
-  <rect x="0" y="0" width="760" height="220" fill="#EDF2F2"/>
-  <rect x="0" y="120" width="760" height="100" fill="#5BA3D0"/>
-  <path d="M0 0 L300 0 L300 120 L260 120 Q250 100 270 90 L300 90" fill="#C99A6A"/>
-  <path d="M260 120 Q250 100 270 90" fill="none" stroke="#7E3F14" stroke-width="2"/>
-  <path d="M300 120 Q400 130 520 130 L760 150 L760 220 L300 220 Z" fill="#D6BD9A"/>
-  <path d="M520 110 q20 16 0 24 q-20 -8 0 -24" fill="#fff" opacity=".8"/>
-  <g stroke="#13262E" stroke-width="1.2">
-    <line x1="270" y1="92" x2="180" y2="60"/><line x1="262" y1="112" x2="180" y2="92"/><line x1="420" y1="128" x2="420" y2="78"/>
-  </g>
-  <text x="100" y="58" class="dlbl sm">клиф</text>
-  <text x="92" y="96" class="dlbl sm">прибойна ниша</text>
-  <text x="396" y="72" class="dlbl sm">плаж</text>
-  <text x="600" y="140" class="dlbl sm" fill="#fff">прибой</text>
-</svg>
-<figcaption>Брегова зона · клиф, прибойна ниша и плаж — оформени от морската вода</figcaption>
-</figure>
-      <p>Морската вода също преобразува сушата. В бреговата зона прибоят издълбава в скалите прибойна ниша, над която се образува стръмен клиф, а отнесеният материал изгражда плажа.</p>
-    </div>
+        (function glac() {
+          var r = $("glac-range");
+          if (!r) return;
+          var walls = $("glac-walls"),
+            ice = $("glac-ice"),
+            river = $("glac-river"),
+            cir = $("glac-cirque"),
+            l1 = $("glac-l1"),
+            l2 = $("glac-l2"),
+            v = $("glac-val"),
+            live = $("glac-live");
+          var topY = 40,
+            cx = 380;
 
-    <nav class="lnav" aria-label="Между уроците">
-      <a class="prev" href="urok-23.html"><span class="dir">← Предходен</span><span class="ttl">23 · в подготовка</span></a>
-      <a class="next disabled"><span class="dir">Следващ →</span><span class="ttl">—</span></a>
-    </nav>
-    <a class="back" href="../litosfera.html">← Обратно към раздел Литосфера</a>
-  </article>
-</section>
-</main>
+          function up() {
+            var f = +r.value / 100,
+              fh = 12 + f * 150,
+              fy = 150 + f * 40;
+            var lx = cx - fh,
+              rx = cx + fh;
+            var lw = '<polygon points="0,' + topY + ' 150,' + topY + ' ' + lx + ',' + fy + ' ' + lx + ',260 0,260" fill="#8A8F95"/>';
+            var rw = '<polygon points="760,' + topY + ' 610,' + topY + ' ' + rx + ',' + fy + ' ' + rx + ',260 760,260" fill="#8A8F95"/>';
+            var fl = '<rect x="' + lx + '" y="' + fy + '" width="' + (rx - lx) + '" height="' + (260 - fy) + '" fill="#8A8F95"/>';
+            walls.innerHTML = lw + rw + fl;
+            if (f < 0.04) {
+              river.setAttribute("d", "M" + cx + " " + topY + " L" + cx + " " + fy);
+              ice.setAttribute("opacity", "0");
+            } else {
+              river.setAttribute("d", "");
+              var it = topY + 34,
+                tl = (it - topY) / (fy - topY),
+                ilx = 150 + (lx - 150) * tl,
+                irx = 610 + (rx - 610) * tl;
+              ice.setAttribute("points", ilx.toFixed(0) + "," + it + " " + irx.toFixed(0) + "," + it + " " + rx + "," + fy + " " + lx + "," + fy);
+              ice.setAttribute("opacity", (0.45 + f * 0.5).toFixed(2));
+            }
+            cir.setAttribute("d", "M120 " + topY + " Q155 " + (topY - 2 + f * 4) + " 190 " + topY + " Q190 " + (topY + 24 + f * 14) + " 155 " + (topY + 30 + f * 16) + " Q120 " + (topY + 24 + f * 14) + " 120 " + topY + " Z");
+            cir.setAttribute("opacity", f < 0.3 ? "0" : ((f - 0.3)).toFixed(2));
+            l1.setAttribute("opacity", f < 0.3 ? "0" : "1");
+            v.textContent = Math.round(f * 100) + "%";
+            if (f < 0.04) {
+              l2.textContent = "V-образна речна долина";
+              l2.setAttribute("fill", "#5F2E0C");
+              live.innerHTML = "В началото това е тясна <b>V-образна речна долина</b>. Пусни ледника, за да започне екзарацията.";
+            } else {
+              l2.textContent = "U-образна коритовидна долина";
+              l2.setAttribute("fill", "#0A5A6B");
+              live.innerHTML = "Ледникът чрез <b>екзарация</b> разширява и преудълбочава долината в широка <b>U-образна коритовидна долина</b>, а отгоре оформя <b>циркус</b>. Близо до морето такава долина се наводнява и става <b>фиорд</b>.";
+            }
+          }
+          r.addEventListener("input", up);
+          r._reset = function() {
+            r.value = 0;
+            up()
+          };
+          up();
+        })();
 
-<footer class="footer">
-  <div class="ticks" aria-hidden="true"></div>
-  <div class="wrap footer-grid">
-    <div>
-      <p class="fbrand">ГеоСфера</p>
-      <p class="fnote">Учебен атлас по география и икономика · 8. клас</p>
-    </div>
-    <div>
-      <div class="scalebar" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-      <p class="fnote mono">лист K-35 · България · © 2026</p>
-    </div>
-  </div>
-</footer>
+        (function coast() {
+          var r = $("coast-range");
+          if (!r) return;
+          var plat = $("coast-plat"),
+            land = $("coast-land"),
+            land2 = $("coast-land2"),
+            notch = $("coast-notch"),
+            waves = $("coast-waves"),
+            v = $("coast-val"),
+            live = $("coast-live");
+          var lc = $("coast-lc"),
+            ln = $("coast-ln"),
+            lp = $("coast-lp"),
+            tc = $("coast-tc"),
+            tn = $("coast-tn"),
+            tp = $("coast-tp");
+          var seaY = 150,
+            topY = 36;
 
-</body>
+          function up() {
+            var f = +r.value / 100,
+              cliffX = 360 - f * 150,
+              nd = 14 + f * 46,
+              plen = 24 + f * 150;
+            land.setAttribute("points", "0," + (topY + 14) + " " + cliffX + "," + (topY + 14) + " " + cliffX + "," + seaY + " 0," + seaY);
+            land2.setAttribute("points", "0," + topY + " " + cliffX + "," + topY + " " + cliffX + "," + (topY + 14) + " 0," + (topY + 14));
+            notch.setAttribute("points", cliffX + "," + (seaY - 22) + " " + cliffX + "," + seaY + " " + (cliffX - nd) + "," + seaY);
+            plat.setAttribute("points", cliffX + "," + seaY + " " + (cliffX + plen) + "," + seaY + " " + (cliffX + plen) + "," + (seaY + 10) + " " + cliffX + "," + (seaY + 12));
+            var wh = "";
+            for (var i = 0; i < 3; i++) {
+              var wx = cliffX + 20 + i * 46;
+              wh += '<path d="M' + wx + ' ' + (seaY - 4) + ' q10 -8 20 0 q10 8 20 0"/>';
+            }
+            waves.innerHTML = wh;
+            lc.setAttribute("x1", cliffX - 2);
+            lc.setAttribute("y1", topY + 40);
+            lc.setAttribute("x2", cliffX - 70);
+            lc.setAttribute("y2", topY + 20);
+            tc.setAttribute("x", cliffX - 128);
+            tc.setAttribute("y", topY + 22);
+            tc.textContent = "клиф";
+            ln.setAttribute("x1", cliffX - nd / 2);
+            ln.setAttribute("y1", seaY - 6);
+            ln.setAttribute("x2", cliffX - nd - 30);
+            ln.setAttribute("y2", seaY + 30);
+            tn.setAttribute("x", cliffX - nd - 110);
+            tn.setAttribute("y", seaY + 34);
+            tn.textContent = "прибойна ниша";
+            lp.setAttribute("x1", cliffX + plen * 0.6);
+            lp.setAttribute("y1", seaY + 6);
+            lp.setAttribute("x2", cliffX + plen * 0.6);
+            lp.setAttribute("y2", seaY + 46);
+            tp.setAttribute("x", cliffX + plen * 0.6);
+            tp.setAttribute("y", seaY + 60);
+            tp.setAttribute("text-anchor", "middle");
+            tp.textContent = "плаж";
+            v.textContent = Math.round(f * 100) + "%";
+            live.innerHTML = f < 0.05 ? "Усили действието на вълните: прибоят издълбава <b>прибойна ниша</b> в основата, <b>клифът</b> отстъпва навътре, а отдолу се разширява <b>плажът</b>." :
+              "Прибоят непрекъснато удря основата на скалата и изсича <b>прибойна ниша</b>. Надвисналият <b>клиф</b> се срутва и отстъпва навътре в сушата, а отнесеният материал застила <b>плажа</b>.";
+          }
+          r.addEventListener("input", up);
+          r._reset = function() {
+            r.value = 0;
+            up()
+          };
+          up();
+        })();
+
+        [].forEach.call(document.querySelectorAll(".sim-reset"), function(b) {
+          b.addEventListener("click", function() {
+            var k = b.getAttribute("data-r");
+            var el = ({
+              frost: "frost-range",
+              mean: "mean-range",
+              glac: "glac-range",
+              coast: "coast-range"
+            })[k];
+            var t = document.getElementById(el);
+            if (t && t._reset) t._reset();
+          });
+        });
+      })();
+    </script>
+
+  </body>
+
 </html>
