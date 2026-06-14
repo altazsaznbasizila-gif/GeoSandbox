@@ -1,102 +1,116 @@
 <!doctype html>
 <html lang="bg">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Хидросфера · ГеоСфера</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Sofia+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-</head>
-<body data-view="hidrosfera">
 
-<header class="topbar">
-  <div class="wrap topbar-inner">
-    <a class="brand" href="index.html">
-      <svg viewBox="0 0 32 32" fill="none" stroke-linecap="round" aria-hidden="true">
-        <circle cx="16" cy="16" r="14" stroke="#13262E" stroke-width="1.6"/>
-        <path d="M6 11.5a12.4 12.4 0 0 1 20 0" stroke="#3E8FD0" stroke-width="3"/>
-        <path d="M4.6 17h22.8" stroke="#0D7387" stroke-width="3"/>
-        <path d="M7.5 23.5a12.4 12.4 0 0 0 17 0" stroke="#A8551E" stroke-width="3"/>
-      </svg>
-      ГеоСфера
-    </a>
-    <nav class="nav" aria-label="Основна навигация">
-      <a href="index.html">Начало</a>
-      <a href="atmosfera.html">Атмосфера</a>
-      <a href="hidrosfera.html" class="on" aria-current="page">Хидросфера</a>
-      <a href="litosfera.html">Литосфера</a>
-    </nav>
-  </div>
-  <div class="ticks" aria-hidden="true"></div>
-</header>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Хидросфера · ГеоСфера</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Sofia+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
 
-<main>
-<section class="page">
-<div class="phero">
-    <div class="wrap phero-grid">
-      <div>
-        <p class="eyebrow">Лист 02 · Водната обвивка на Земята</p>
-        <h1 class="ptitle">Хидросфера</h1>
-        <p class="lead">Една капка вода може да обиколи цялата планета — от океана към облака,
-        реката, ледника и обратно. Този раздел е за Световния океан, водите на сушата и големия
-        кръговрат, който ги свързва.</p>
-        <p class="pchips"><span class="lbl">Ключови понятия:</span>
-          <span class="chip">Световен океан</span><span class="chip">океанско течение</span>
-          <span class="chip">речна система</span><span class="chip">ледник</span>
-          <span class="chip">подземни води</span></p>
+  <body data-view="hidrosfera">
+
+    <header class="topbar">
+      <div class="wrap topbar-inner">
+        <a class="brand" href="index.html">
+          <svg viewBox="0 0 32 32" fill="none" stroke-linecap="round" aria-hidden="true">
+            <circle cx="16" cy="16" r="14" stroke="#13262E" stroke-width="1.6" />
+            <path d="M6 11.5a12.4 12.4 0 0 1 20 0" stroke="#3E8FD0" stroke-width="3" />
+            <path d="M4.6 17h22.8" stroke="#0D7387" stroke-width="3" />
+            <path d="M7.5 23.5a12.4 12.4 0 0 0 17 0" stroke="#A8551E" stroke-width="3" />
+          </svg>
+          ГеоСфера
+        </a>
+        <nav class="nav" aria-label="Основна навигация">
+          <a href="index.html">Начало</a>
+          <a href="atmosfera.html">Атмосфера</a>
+          <a href="hidrosfera.html" class="on" aria-current="page">Хидросфера</a>
+          <a href="litosfera.html">Литосфера</a>
+        </nav>
       </div>
-      <figure class="pdiagram">
-        <svg viewBox="0 0 320 360" role="img" aria-label="Схема на дълбочинните зони на океана">
-          <defs><linearGradient id="pH" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stop-color="#8FD0DA"/><stop offset=".4" stop-color="#1E8A9E"/>
-            <stop offset="1" stop-color="#062E3C"/>
-          </linearGradient></defs>
-          <rect x="38" y="40" width="232" height="288" fill="url(#pH)"/>
-          <circle cx="64" cy="24" r="11" fill="#F7C84B"/>
-          <path d="M38 40q19-9 39 0t39 0t39 0t39 0t38 0t38 0" fill="none" stroke="#EAFBFF" stroke-width="3"/>
-          <path d="M48 124h212" stroke="#EAFBFF" stroke-width="1.5" stroke-dasharray="7 7" opacity=".7"/>
-          <path d="M48 222h212" stroke="#EAFBFF" stroke-width="1.5" stroke-dasharray="7 7" opacity=".5"/>
-          <text class="dlabel" x="50" y="84" fill="#073142">СВЕТЛИННА ЗОНА</text>
-          <text class="dlabel" x="50" y="172" fill="#D9F4F8">ЗДРАЧНА ЗОНА</text>
-          <text class="dlabel" x="50" y="278" fill="#9FC4CE">ТЪМНА ЗОНА</text>
-          <text class="dlabel" x="222" y="120" fill="#073142" font-size="11.5">200 м</text>
-          <text class="dlabel" x="214" y="218" fill="#D9F4F8" font-size="11.5">1000 м</text>
-          <path d="M38 328q60-22 116-8t78-10v18H38Z" fill="#7E3F14"/>
-          <rect x="38" y="40" width="232" height="288" fill="none" stroke="#13262E" stroke-width="1.5"/>
-        </svg>
-        <figcaption>Дълбочинни зони на Световния океан</figcaption>
-      </figure>
-    </div>
-  </div>
+      <div class="ticks" aria-hidden="true"></div>
+    </header>
 
-  <div class="wrap lessons-block">
-    <div class="bhead">
-      <h2>Уроци в раздела</h2>
-      <p class="bnote">// съдържанието се подготвя — тук ще добавим уроците и симулациите</p>
-    </div>
-    <ol class="lessons">
-      <li class="lesson"><span class="lnum">01</span><div><h4>-- На разработка --</h4><p>---</p></div><div class="ltags"><span class="tag">Урок · скоро</span></div></li>
-    </ol>
-    <a class="back" href="index.html">← Обратно към атласа</a>
-  </div>
-</section>
-</main>
+    <main>
+      <section class="page">
+        <div class="phero">
+          <div class="wrap phero-grid">
+            <div>
+              <p class="eyebrow">Лист 02 · Водната обвивка на Земята</p>
+              <h1 class="ptitle">Хидросфера</h1>
+              <p class="lead">Една капка вода може да обиколи цялата планета — от океана към облака,
+                реката, ледника и обратно. Този раздел е за Световния океан, водите на сушата и големия
+                кръговрат, който ги свързва.</p>
+              <p class="pchips"><span class="lbl">Ключови понятия:</span>
+                <span class="chip">Световен океан</span><span class="chip">океанско течение</span>
+                <span class="chip">речна система</span><span class="chip">ледник</span>
+                <span class="chip">подземни води</span>
+              </p>
+            </div>
+            <figure class="pdiagram">
+              <svg viewBox="0 0 320 360" role="img" aria-label="Схема на дълбочинните зони на океана">
+                <defs>
+                  <linearGradient id="pH" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#8FD0DA" />
+                    <stop offset=".4" stop-color="#1E8A9E" />
+                    <stop offset="1" stop-color="#062E3C" />
+                  </linearGradient>
+                </defs>
+                <rect x="38" y="40" width="232" height="288" fill="url(#pH)" />
+                <circle cx="64" cy="24" r="11" fill="#F7C84B" />
+                <path d="M38 40q19-9 39 0t39 0t39 0t39 0t38 0t38 0" fill="none" stroke="#EAFBFF" stroke-width="3" />
+                <path d="M48 124h212" stroke="#EAFBFF" stroke-width="1.5" stroke-dasharray="7 7" opacity=".7" />
+                <path d="M48 222h212" stroke="#EAFBFF" stroke-width="1.5" stroke-dasharray="7 7" opacity=".5" />
+                <text class="dlabel" x="50" y="84" fill="#073142">СВЕТЛИННА ЗОНА</text>
+                <text class="dlabel" x="50" y="172" fill="#D9F4F8">ЗДРАЧНА ЗОНА</text>
+                <text class="dlabel" x="50" y="278" fill="#9FC4CE">ТЪМНА ЗОНА</text>
+                <text class="dlabel" x="222" y="120" fill="#073142" font-size="11.5">200 м</text>
+                <text class="dlabel" x="214" y="218" fill="#D9F4F8" font-size="11.5">1000 м</text>
+                <path d="M38 328q60-22 116-8t78-10v18H38Z" fill="#7E3F14" />
+                <rect x="38" y="40" width="232" height="288" fill="none" stroke="#13262E" stroke-width="1.5" />
+              </svg>
+              <figcaption>Дълбочинни зони на Световния океан</figcaption>
+            </figure>
+          </div>
+        </div>
 
-<footer class="footer">
-  <div class="ticks" aria-hidden="true"></div>
-  <div class="wrap footer-grid">
-    <div>
-      <p class="fbrand">ГеоСфера</p>
-      <p class="fnote">Учебен атлас по география и икономика · 8. клас</p>
-    </div>
-    <div>
-      <div class="scalebar" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-      <p class="fnote mono">лист K-35 · България · © 2026</p>
-    </div>
-  </div>
-</footer>
+        <div class="wrap lessons-block">
+          <div class="bhead">
+            <h2>Уроци в раздела</h2>
+            <p class="bnote">// съдържанието се подготвя — тук ще добавим уроците и симулациите</p>
+          </div>
+          <ol class="lessons">
+            <li class="lesson"><span class="lnum">01</span>
+              <div>
+                <h4>-- На разработка --</h4>
+                <p>---</p>
+              </div>
+              <div class="ltags"><span class="tag">Урок · скоро</span></div>
+            </li>
+          </ol>
+          <a class="back" href="index.html">← Обратно към атласа</a>
+        </div>
+      </section>
+    </main>
 
-</body>
+    <footer class="footer">
+      <div class="ticks" aria-hidden="true"></div>
+      <div class="wrap footer-grid">
+        <div>
+          <p class="fbrand">ГеоСфера</p>
+          <p class="fnote">Учебен атлас по география и икономика · 8. клас</p>
+        </div>
+        <div>
+          <div class="scalebar" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <p class="fnote mono">лист K-35 · България · © 2026</p>
+        </div>
+      </div>
+    </footer>
+
+  </body>
+
 </html>
+
