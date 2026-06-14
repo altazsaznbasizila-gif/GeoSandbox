@@ -1,109 +1,122 @@
 <!doctype html>
 <html lang="bg">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Атмосфера · ГеоСфера</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Sofia+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-</head>
-<body data-view="atmosfera">
 
-<header class="topbar">
-  <div class="wrap topbar-inner">
-    <a class="brand" href="index.html">
-      <svg viewBox="0 0 32 32" fill="none" stroke-linecap="round" aria-hidden="true">
-        <circle cx="16" cy="16" r="14" stroke="#13262E" stroke-width="1.6"/>
-        <path d="M6 11.5a12.4 12.4 0 0 1 20 0" stroke="#3E8FD0" stroke-width="3"/>
-        <path d="M4.6 17h22.8" stroke="#0D7387" stroke-width="3"/>
-        <path d="M7.5 23.5a12.4 12.4 0 0 0 17 0" stroke="#A8551E" stroke-width="3"/>
-      </svg>
-      ГеоСфера
-    </a>
-    <nav class="nav" aria-label="Основна навигация">
-      <a href="index.html">Начало</a>
-      <a href="atmosfera.html" class="on" aria-current="page">Атмосфера</a>
-      <a href="hidrosfera.html">Хидросфера</a>
-      <a href="litosfera.html">Литосфера</a>
-    </nav>
-  </div>
-  <div class="ticks" aria-hidden="true"></div>
-</header>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Атмосфера · ГеоСфера</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;900&family=Sofia+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
 
-<main>
-<section class="page">
-<div class="phero">
-    <div class="wrap phero-grid">
-      <div>
-        <p class="eyebrow">Лист 01 · Въздушната обвивка на Земята</p>
-        <h1 class="ptitle">Атмосфера</h1>
-        <p class="lead">Океан от въздух, дълбок стотици километри, в който ние живеем на самото
-        дъно. Тук ще разбереш защо духа вятърът, как се раждат облаците и валежите и какво прави
-        климата на едно място точно такъв, какъвто е.</p>
-        <p class="pchips"><span class="lbl">Ключови понятия:</span>
-          <span class="chip">тропосфера</span><span class="chip">озонов слой</span>
-          <span class="chip">атмосферно налягане</span><span class="chip">циклон</span>
-          <span class="chip">климатичен пояс</span></p>
+  <body data-view="atmosfera">
+
+    <header class="topbar">
+      <div class="wrap topbar-inner">
+        <a class="brand" href="index.html">
+          <svg viewBox="0 0 32 32" fill="none" stroke-linecap="round" aria-hidden="true">
+            <circle cx="16" cy="16" r="14" stroke="#13262E" stroke-width="1.6" />
+            <path d="M6 11.5a12.4 12.4 0 0 1 20 0" stroke="#3E8FD0" stroke-width="3" />
+            <path d="M4.6 17h22.8" stroke="#0D7387" stroke-width="3" />
+            <path d="M7.5 23.5a12.4 12.4 0 0 0 17 0" stroke="#A8551E" stroke-width="3" />
+          </svg>
+          ГеоСфера
+        </a>
+        <nav class="nav" aria-label="Основна навигация">
+          <a href="index.html">Начало</a>
+          <a href="atmosfera.html" class="on" aria-current="page">Атмосфера</a>
+          <a href="hidrosfera.html">Хидросфера</a>
+          <a href="litosfera.html">Литосфера</a>
+        </nav>
       </div>
-      <figure class="pdiagram">
-        <svg viewBox="0 0 320 360" role="img" aria-label="Схема на слоевете на атмосферата">
-          <rect x="38" y="16" width="232" height="70" fill="#1E3A52"/>
-          <rect x="38" y="86" width="232" height="64" fill="#2B5E86"/>
-          <rect x="38" y="150" width="232" height="88" fill="#4D94CF"/>
-          <rect x="38" y="238" width="232" height="90" fill="#BBDDF5"/>
-          <text class="dlabel" x="50" y="42" fill="#fff">ТЕРМОСФЕРА</text>
-          <text class="dlabel" x="50" y="110" fill="#fff">МЕЗОСФЕРА</text>
-          <text class="dlabel" x="50" y="174" fill="#fff">СТРАТОСФЕРА</text>
-          <text class="dlabel" x="50" y="262" fill="#123349">ТРОПОСФЕРА</text>
-          <path d="M48 206h212" stroke="#F7C84B" stroke-width="3" stroke-dasharray="8 7"/>
-          <text class="dlabel" x="50" y="226" fill="#FFF3CF" font-size="11.5">озонов слой</text>
-          <g fill="#FFFFFF" opacity=".95">
-            <ellipse cx="120" cy="272" rx="26" ry="9"/><ellipse cx="103" cy="276" rx="15" ry="6"/><ellipse cx="138" cy="277" rx="14" ry="6"/>
-          </g>
-          <path d="M170 328 L206 286 L242 328 Z" fill="#5C7B8A"/>
-          <path d="M198 296 L206 286 L214 296 L206 304 Z" fill="#fff"/>
-          <g stroke="#54707A" stroke-width="1">
-            <path d="M270 86h10M270 150h10M270 238h10M270 328h10"/>
-          </g>
-          <text class="dlabel" x="284" y="90" fill="#54707A" font-size="11.5">85 км</text>
-          <text class="dlabel" x="284" y="154" fill="#54707A" font-size="11.5">50 км</text>
-          <text class="dlabel" x="284" y="242" fill="#54707A" font-size="11.5">12 км</text>
-          <text class="dlabel" x="284" y="332" fill="#54707A" font-size="11.5">0 км</text>
-          <rect x="38" y="16" width="232" height="312" fill="none" stroke="#13262E" stroke-width="1.5"/>
-        </svg>
-        <figcaption>Строеж на атмосферата · четирите основни слоя</figcaption>
-      </figure>
-    </div>
-  </div>
+      <div class="ticks" aria-hidden="true"></div>
+    </header>
 
-  <div class="wrap lessons-block">
-    <div class="bhead">
-      <h2>Уроци в раздела</h2>
-      <p class="bnote">// съдържанието се подготвя — тук ще добавим уроците и симулациите</p>
-    </div>
-    <ol class="lessons">
-      <li class="lesson"><span class="lnum">01</span><div><h4>-- На разработка --</h4><p>---</p></div><div class="ltags"><span class="tag">Урок · скоро</span></div></li>
-    </ol>
-    <a class="back" href="index.html">← Обратно към атласа</a>
-  </div>
-</section>
-</main>
+    <main>
+      <section class="page">
+        <div class="phero">
+          <div class="wrap phero-grid">
+            <div>
+              <p class="eyebrow">Лист 01 · Въздушната обвивка на Земята</p>
+              <h1 class="ptitle">Атмосфера</h1>
+              <p class="lead">Океан от въздух, дълбок стотици километри, в който ние живеем на самото
+                дъно. Тук ще разбереш защо духа вятърът, как се раждат облаците и валежите и какво прави
+                климата на едно място точно такъв, какъвто е.</p>
+              <p class="pchips"><span class="lbl">Ключови понятия:</span>
+                <span class="chip">тропосфера</span><span class="chip">озонов слой</span>
+                <span class="chip">атмосферно налягане</span><span class="chip">циклон</span>
+                <span class="chip">климатичен пояс</span>
+              </p>
+            </div>
+            <figure class="pdiagram">
+              <svg viewBox="0 0 320 360" role="img" aria-label="Схема на слоевете на атмосферата">
+                <rect x="38" y="16" width="232" height="70" fill="#1E3A52" />
+                <rect x="38" y="86" width="232" height="64" fill="#2B5E86" />
+                <rect x="38" y="150" width="232" height="88" fill="#4D94CF" />
+                <rect x="38" y="238" width="232" height="90" fill="#BBDDF5" />
+                <text class="dlabel" x="50" y="42" fill="#fff">ТЕРМОСФЕРА</text>
+                <text class="dlabel" x="50" y="110" fill="#fff">МЕЗОСФЕРА</text>
+                <text class="dlabel" x="50" y="174" fill="#fff">СТРАТОСФЕРА</text>
+                <text class="dlabel" x="50" y="262" fill="#123349">ТРОПОСФЕРА</text>
+                <path d="M48 206h212" stroke="#F7C84B" stroke-width="3" stroke-dasharray="8 7" />
+                <text class="dlabel" x="50" y="226" fill="#FFF3CF" font-size="11.5">озонов слой</text>
+                <g fill="#FFFFFF" opacity=".95">
+                  <ellipse cx="120" cy="272" rx="26" ry="9" />
+                  <ellipse cx="103" cy="276" rx="15" ry="6" />
+                  <ellipse cx="138" cy="277" rx="14" ry="6" />
+                </g>
+                <path d="M170 328 L206 286 L242 328 Z" fill="#5C7B8A" />
+                <path d="M198 296 L206 286 L214 296 L206 304 Z" fill="#fff" />
+                <g stroke="#54707A" stroke-width="1">
+                  <path d="M270 86h10M270 150h10M270 238h10M270 328h10" />
+                </g>
+                <text class="dlabel" x="284" y="90" fill="#54707A" font-size="11.5">85 км</text>
+                <text class="dlabel" x="284" y="154" fill="#54707A" font-size="11.5">50 км</text>
+                <text class="dlabel" x="284" y="242" fill="#54707A" font-size="11.5">12 км</text>
+                <text class="dlabel" x="284" y="332" fill="#54707A" font-size="11.5">0 км</text>
+                <rect x="38" y="16" width="232" height="312" fill="none" stroke="#13262E" stroke-width="1.5" />
+              </svg>
+              <figcaption>Строеж на атмосферата · четирите основни слоя</figcaption>
+            </figure>
+          </div>
+        </div>
 
-<footer class="footer">
-  <div class="ticks" aria-hidden="true"></div>
-  <div class="wrap footer-grid">
-    <div>
-      <p class="fbrand">ГеоСфера</p>
-      <p class="fnote">Учебен атлас по география и икономика · 8. клас</p>
-    </div>
-    <div>
-      <div class="scalebar" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-      <p class="fnote mono">лист K-35 · България · © 2026</p>
-    </div>
-  </div>
-</footer>
+        <div class="wrap lessons-block">
+          <div class="bhead">
+            <h2>Уроци в раздела</h2>
+            <p class="bnote">// съдържанието се подготвя — тук ще добавим уроците и симулациите</p>
+          </div>
+          <ol class="lessons">
+            <li class="lesson"><span class="lnum">01</span>
+              <div>
+                <h4>-- На разработка --</h4>
+                <p>---</p>
+              </div>
+              <div class="ltags"><span class="tag">Урок · скоро</span></div>
+            </li>
+          </ol>
+          <a class="back" href="index.html">← Обратно към атласа</a>
+        </div>
+      </section>
+    </main>
 
-</body>
+    <footer class="footer">
+      <div class="ticks" aria-hidden="true"></div>
+      <div class="wrap footer-grid">
+        <div>
+          <p class="fbrand">ГеоСфера</p>
+          <p class="fnote">Учебен атлас по география и икономика · 8. клас</p>
+        </div>
+        <div>
+          <div class="scalebar" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <p class="fnote mono">лист K-35 · България · © 2026</p>
+        </div>
+      </div>
+    </footer>
+
+  </body>
+
 </html>
+
